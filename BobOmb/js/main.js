@@ -8,8 +8,8 @@ var gamePrefs=
 var config = 
 {
     type: Phaser.AUTO,
-    width: 128,
-    height: 256,
+    width: 256,
+    height: 384,
     scene:[gameState], //array con las escenas
     render:
     {
