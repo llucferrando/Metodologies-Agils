@@ -1,8 +1,8 @@
 var gamePrefs=
 {
-    NAVE_SPEED:2,
+    BOMB_SPEED:120,
     BULLET_SPEED:-100,
-    ENEMY_SPEED:20
+    
 }
 
 var config = 
