@@ -21,21 +21,22 @@ class gameState extends Phaser.Scene
         var percentage;
         this.loadPools();
 
-        this.enemyTimer = this.time.addEvent
+        this.bulletTimer = this.time.addEvent
         (
             {
-                delay: 100, //ms
+                delay: 100, //ms             
                 callback: this.createBullet,
                 callbackScope:this,
                 loop:true //repeat: -1
             }
         );
+       
 
     }
 
     update()
     { //Actualiza whatever  
-       this.percentage = Phaser.Math.Between(0,4);
+        this.percentage = Phaser.Math.Between(0,3)
        console.log(this.percentage);
     }
 
@@ -57,29 +58,12 @@ class gameState extends Phaser.Scene
         if(!_bullet)
         {//Que no? La creo
             console.log('creando bala');
-            if(this.percentage <=1)
-            {
-                _bullet = new bulletPrefab(this,posX,posY,'bullet');
-            }
-            else if(this.percentage <=2 && this.percentage >1)
-            {
-                _bullet = new bulletPrefab(this,posX,config.height,'bullet');
-            }
-            else if(this.percentage <=3 && this.percentage >2)
-            {
-                _bullet = new bulletPrefab(this,posY,posX,'bullet');
-            }
-            else if(this.percentage <=4 && this.percentage >3)
-            {
-                _bullet = new bulletPrefab(this,posX,posY,'bullet');
-            }
-            
-            
+            _bullet = new bulletPrefab(this,posX,posY,'bullet');
             this.bulletPool.add(_bullet);
         }else
         {//Que si? La reciclo
             console.log('reciclando bala');
-            _bullet.body.reset(posX,posY.top);
+                _bullet.body.reset(posX,posY);                      
             _bullet.active = true;
         }
         //Hago cosas con la bala
