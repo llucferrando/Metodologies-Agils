@@ -13,6 +13,9 @@ class gameState extends Phaser.Scene
         this.load.image('bg_down','downbg.png');
         this.load.spritesheet('bomb','bombs.png',
         {frameWidth:16,frameHeight:25});
+
+        this.load.setPath('assets/sounds');
+        this.load.audio('walk','snd_bomb_plop.mp3');
         
         
     }
@@ -24,11 +27,28 @@ class gameState extends Phaser.Scene
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
 
         this.loadAnimations();
+        this.loadSounds();
 
         this.cursores = this.input.keyboard.createCursorKeys();
 
         this.bomb.anims.play('idle',false);
 
+        this.plopTimer = this.time.addEvent
+        (
+            {
+                delay: 200, //ms
+                callback: this.PlaySound(),
+                callbackScope:this,
+                loop:true,
+                repeat:-1
+            }
+        );
+
+    }
+
+    PlaySound()
+    {
+        this.walk.play();
     }
 
     loadAnimations()
@@ -42,10 +62,13 @@ class gameState extends Phaser.Scene
         });
     }
 
+    loadSounds()
+    {
+        this.walk=this.sound.add('walk');
+    }
+
     update()
     { //Actualiza whatever
-
-        
 
         if(this.cursores.left.isDown)
             this.bomb.body.velocity.x = -gamePrefs.BOMB_SPEED;
