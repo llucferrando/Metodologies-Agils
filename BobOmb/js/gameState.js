@@ -18,54 +18,72 @@ class gameState extends Phaser.Scene
     {
         this.bg_top= this.add.sprite(0,0,'bg_top').setOrigin(0);
         this.bg_down=this.add.sprite(0,192, 'bg_down').setOrigin(0);
-        var percentage;
         this.loadPools();
 
-        this.bulletTimer = this.time.addEvent
+        this.bulletTimerDown = this.time.addEvent
         (
             {
-                delay: 100, //ms             
-                callback: this.createBullets,
+                delay: 500, //ms             
+                callback: this.createBulletDown,
                 callbackScope:this,
                 loop:true //repeat: -1
             }
         );
 
-        this.bulletTimer = this.time.addEvent
+        this.bulletTimerUp = this.time.addEvent
         (
             {
-                delay: 2000, //ms             
-                callback: this.percentage,
+                delay: 500, //ms             
+                callback: this.createBulletUp,
                 callbackScope:this,
                 loop:true //repeat: -1
             }
         );
+
+        this.bulletTimerRight = this.time.addEvent
+        (
+            {
+                delay: 500, //ms             
+                callback: this.createBulletRight,
+                callbackScope:this,
+                loop:true //repeat: -1
+            }
+        );
+
+        this.bulletTimerLeft = this.time.addEvent
+        (
+            {
+                delay: 500, //ms             
+                callback: this.createBulletLeft,
+                callbackScope:this,
+                loop:true //repeat: -1
+            }
+        );
+
        
 
     }
 
     update()
     { //Actualiza whatever         
-       console.log(this.percentage);
+       
        
     }
 
-    percentage()
-    {
-        this.percentage = Phaser.Math.Between(0,3);
-        
-    }
 
     loadPools()
     {
-        this.bulletPool = this.physics.add.group();
+        this.bulletPoolUp = this.physics.add.group();
+        this.bulletPoolDown = this.physics.add.group();
+        this.bulletPoolLeft = this.physics.add.group();
+        this.bulletPoolRight = this.physics.add.group();
         
     }
 
     createBulletDown()
     {
         //Mirar si hay alguna bala reciclable en la pool
-        var _bullet = this.bulletPool.getFirst(false);
+        var _bullet = this.bulletPoolDown.getFirst(false);
 
         var posX = Phaser.Math.Between(16,config.width-16);
         var posY = 0;
@@ -75,7 +93,7 @@ class gameState extends Phaser.Scene
         {//Que no? La creo
             console.log('creando bala');
             _bullet = new bulletPrefab(this,posX,posY,'bullet');
-            this.bulletPool.add(_bullet);
+            this.bulletPoolDown.add(_bullet);
         }else
         {//Que si? La reciclo
             console.log('reciclando bala');
@@ -92,7 +110,7 @@ class gameState extends Phaser.Scene
     createBulletUp()
     {
         //Mirar si hay alguna bala reciclable en la pool
-        var _bullet = this.bulletPool.getFirst(false);
+        var _bullet = this.bulletPoolUp.getFirst(false);
 
         var posX = Phaser.Math.Between(16,config.width-16);
         var posY = 0;
@@ -102,7 +120,7 @@ class gameState extends Phaser.Scene
         {//Que no? La creo
             console.log('creando bala');
             _bullet = new bulletPrefab(this,posX,config.height,'bullet');
-            this.bulletPool.add(_bullet);
+            this.bulletPoolUp.add(_bullet);
         }else
         {//Que si? La reciclo
             console.log('reciclando bala');
@@ -119,7 +137,7 @@ class gameState extends Phaser.Scene
     createBulletLeft()
     {
         //Mirar si hay alguna bala reciclable en la pool
-        var _bullet = this.bulletPool.getFirst(false);
+        var _bullet = this.bulletPoolLeft.getFirst(false);
 
         var posX = Phaser.Math.Between(16,config.height-16);
         var posY = 0;
@@ -129,7 +147,7 @@ class gameState extends Phaser.Scene
         {//Que no? La creo
             console.log('creando bala');
             _bullet = new bulletPrefab(this,posY,posX,'bullet');
-            this.bulletPool.add(_bullet);
+            this.bulletPoolLeft.add(_bullet);
         }else
         {//Que si? La reciclo
             console.log('reciclando bala');
@@ -146,7 +164,7 @@ class gameState extends Phaser.Scene
     createBulletRight()
     {
         //Mirar si hay alguna bala reciclable en la pool
-        var _bullet = this.bulletPool.getFirst(false);
+        var _bullet = this.bulletPoolRight.getFirst(false);
 
         var posX = Phaser.Math.Between(16,config.height-16);
         var posY = 0;
@@ -156,7 +174,7 @@ class gameState extends Phaser.Scene
         {//Que no? La creo
             console.log('creando bala');
             _bullet = new bulletPrefab(this,config.width,posX,'bullet');
-            this.bulletPool.add(_bullet);
+            this.bulletPoolRight.add(_bullet);
         }else
         {//Que si? La reciclo
             console.log('reciclando bala');
@@ -170,27 +188,7 @@ class gameState extends Phaser.Scene
         
     }
 
-    createBullets()
-    {
-        if(this.percentage = 0)
-        {
-            this.createBulletDown();
-        }
-        else if(this.percentage = 1)
-        {
-            this.createBulletUp();
-        }
-        else if(this.percentage = 2)
-        {
-            this.createBulletLeft();
-        }
-        else if(this.percentage = 3)
-        {
-            this.createBulletRight();
-        }
-
-
-    }
+    
     
        
 }
