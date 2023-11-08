@@ -16,8 +16,6 @@ class gameState extends Phaser.Scene
 
         this.load.setPath('assets/sounds');
         this.load.audio('walk','snd_bomb_plop.mp3');
-        
-        
     }
     create()
     {
@@ -28,8 +26,6 @@ class gameState extends Phaser.Scene
 
         this.loadAnimations();
         this.loadSounds();
-
-        this.cursores = this.input.keyboard.createCursorKeys();
 
         this.bomb.anims.play('idle',false);
 
@@ -64,35 +60,12 @@ class gameState extends Phaser.Scene
 
     loadSounds()
     {
-        this.walk=this.sound.add('walk');
+        this.walk=this.sound.add('walk').setLoop(true);
     }
 
     update()
     { //Actualiza whatever
 
-        if(this.cursores.left.isDown)
-            this.bomb.body.velocity.x = -gamePrefs.BOMB_SPEED;
-        else if(this.cursores.right.isDown)
-            this.bomb.body.velocity.x = gamePrefs.BOMB_SPEED;
-        else
-            this.bomb.body.velocity.x = 0;
-
-        if(this.cursores.up.isDown)
-            this.bomb.body.velocity.y = -gamePrefs.BOMB_SPEED;
-        else if(this.cursores.down.isDown)
-            this.bomb.body.velocity.y = gamePrefs.BOMB_SPEED;
-        else
-            this.bomb.body.velocity.y = 0;
-
-        if(this.bomb.x<=20)
-            this.bomb.x = 20;
-        else if(this.bomb.x>=config.width-20)
-            this.bomb.x = config.width-20;
-
-        if(this.bomb.y>=config.height-20)
-            this.bomb.y = config.height-20;
-        else if(this.bomb.y <= config.height/2+20)
-            this.bomb.y = config.height/2+20;
     }
        
 }
