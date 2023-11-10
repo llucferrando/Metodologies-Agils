@@ -23,12 +23,13 @@ class gameState extends Phaser.Scene
     {
         this.bg_top= this.add.sprite(0,0,'bg_top').setOrigin(0);
         this.bg_down=this.add.sprite(0,192, 'bg_down').setOrigin(0);
-        this.loadPools();
+        
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
 
         this.loadAnimations();
         this.loadSounds();
+        this.loadPools();
 
         this.bomb.anims.play('idle',false);
 

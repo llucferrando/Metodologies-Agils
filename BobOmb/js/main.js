@@ -2,9 +2,7 @@ var gamePrefs=
 {
     NAVE_SPEED:2,
     BULLET_SPEED:100,
-    ENEMY_SPEED:20
     BOMB_SPEED:120,
-    BULLET_SPEED:-100,
     
 }
 
