@@ -18,6 +18,7 @@ class gameState extends Phaser.Scene
 
         this.load.setPath('assets/sounds');
         this.load.audio('walk','snd_bomb_plop.mp3');
+        this.load.audio('bg_music','snd_music.mp3');
     }
     create()
     {
@@ -31,8 +32,19 @@ class gameState extends Phaser.Scene
         this.loadSounds();
         this.loadPools();
 
-        this.bomb.anims.play('idle',false);
+        this.tiempoTexto = this.add.text(16, 16, 'Tiempo restante: ' 
+        + gamePrefs.LEVEL1_TIME, { fontSize: '16px', fill: '#fff' });
 
+        this.bomb.anims.play('idle',false);
+        this.levelTimer = this.time.addEvent
+        (
+            {
+                delay: 1000, //ms             
+                callback: this.timeReset,
+                callbackScope:this,
+                loop:true //repeat: -1
+            }
+        );
         this.plopTimer = this.time.addEvent
         (
             {
@@ -87,9 +99,27 @@ class gameState extends Phaser.Scene
        
 
     }
+    timeReset(){
+        //console.log('Entrando en funcion');
+        gamePrefs.LEVEL1_TIME--;
+        this.tiempoTexto.setText('Tiempo restante: ' + gamePrefs.LEVEL1_TIME);
 
+        if(gamePrefs.LEVEL1_TIME===0)
+        {
+            console.log('Nivel reset');
+            this.bomb.body.reset(config.width/2,config.height*.8);
+            gamePrefs.LEVEL1_TIME = 30;
+            
+
+        }
+        
+    }
+    
     PlaySound()
     {
+        this.walk.volume=0.003;
+        this.backgroundMusic.volume=0.01;
+        this.backgroundMusic.play();
         this.walk.play();
     }
 
@@ -107,6 +137,7 @@ class gameState extends Phaser.Scene
     loadSounds()
     {
         this.walk=this.sound.add('walk').setLoop(true);
+        this.backgroundMusic=this.sound.add('bg_music').setLoop(true);
     }
 
     update()

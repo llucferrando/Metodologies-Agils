@@ -6,10 +6,12 @@ class bombPrefab extends Phaser.GameObjects.Sprite
         _scene.add.existing(this);
         _scene.physics.world.enable(this);
         this.body.collideWorldBounds = true;
-        this.nivel=_scene;
-        this.cursores = this.nivel.input.keyboard.createCursorKeys();        
+        this._bomb = this;
+        this.scene=_scene;
+        this.cursores = this.nivel.input.keyboard.createCursorKeys();  
+        this.setColliders();      
     }
-
+   
     death(_bomb,_collisionAgent)
     {
       if(!_collisionAgent.active) return;
@@ -19,11 +21,7 @@ class bombPrefab extends Phaser.GameObjects.Sprite
       this.reset();
     }
 
-    reset()
-    {
-        this.nivel.scene.restart();
-    }
-
+   
     preUpdate(time,delta)
     {        
         if(this.cursores.left.isDown)
