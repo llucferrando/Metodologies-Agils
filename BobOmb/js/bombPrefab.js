@@ -6,10 +6,23 @@ class bombPrefab extends Phaser.GameObjects.Sprite
         _scene.add.existing(this);
         _scene.physics.world.enable(this);
         this.body.collideWorldBounds = true;
-        this._bomb = this;
-        this.scene=_scene;
+        this.bomb = this;
+        this.nivel=_scene;
         this.cursores = this.nivel.input.keyboard.createCursorKeys();  
-        this.setColliders();      
+        //this.hitBomb();      
+    }
+    
+    hitBomb(_bomb,_bullet)
+    {
+        
+       
+        if(_bomb.body.touching.up && _bomb.body.touching.down && _bomb.body.blocked.left && _bomb.body.blocked.right)
+        {
+            _bullet.destroy();
+            _bomb.reset(config.width/2,config.height*.8);
+        }
+
+
     }
    
     death(_bomb,_collisionAgent)
