@@ -16,6 +16,9 @@ class gameState extends Phaser.Scene
         this.load.spritesheet('bomb','bombs.png',
         {frameWidth:16,frameHeight:25});
 
+        this.load.spritesheet('enemy','bombEnemy.png',
+        {frameWidth:16,frameHeight:16});
+
         this.load.setPath('assets/sounds');
         this.load.audio('walk','snd_bomb_plop.mp3');
         this.load.audio('bg_music','snd_music.mp3');
@@ -27,6 +30,7 @@ class gameState extends Phaser.Scene
         
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
+        this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.8,'enemy');
 
         this.loadAnimations();
         this.loadSounds();
