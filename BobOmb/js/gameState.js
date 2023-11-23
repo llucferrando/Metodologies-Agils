@@ -15,6 +15,8 @@ class gameState extends Phaser.Scene
         
         this.load.spritesheet('bomb','bombs.png',
         {frameWidth:16,frameHeight:25});
+        this.load.spritesheet('ampeter','bombEnemy.png',
+        {frameWidth:16,frameHeight:216});
 
         this.load.setPath('assets/sounds');
         this.load.audio('walk','snd_bomb_plop.mp3');
@@ -27,6 +29,7 @@ class gameState extends Phaser.Scene
         
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
+       
 
         this.loadAnimations();
         this.loadSounds();
@@ -36,6 +39,7 @@ class gameState extends Phaser.Scene
         + gamePrefs.LEVEL1_TIME, { fontSize: '16px', fill: '#fff' });
 
         this.bomb.anims.play('idle',false);
+        
         this.levelTimer = this.time.addEvent
         (
             {
@@ -132,6 +136,7 @@ class gameState extends Phaser.Scene
             frameRate: 8,
             repeat: -1
         });
+       
     }
 
     loadSounds()
@@ -150,9 +155,45 @@ class gameState extends Phaser.Scene
     loadPools()
     {
         this.bulletPoolUp = this.physics.add.group();
+        this.physics.add.overlap
+        (
+            this.bomb,
+            this.bulletPoolUp,
+            this.bomb.hitBomb,
+            this.bullet,
+            null,
+            this
+        );
         this.bulletPoolDown = this.physics.add.group();
-        this.bulletPoolLeft = this.physics.add.group();
-        this.bulletPoolRight = this.physics.add.group();
+        this.physics.add.overlap
+        (
+            this.bomb,
+            this.bulletPoolDown,
+            this.bomb.hitBomb,
+            this.bullet,
+            null,
+            this
+        );
+        this.bulletPoolLeft = this.physics.add.group();  
+        this.physics.add.overlap
+        (
+            this.bomb,
+            this.bulletPoolLeft,
+            this.bomb.hitBomb,
+            this.bullet,
+            null,
+            this
+        );
+        this.bulletPoolRight = this.physics.add.group(); 
+         this.physics.add.overlap
+        (
+            this.bomb,
+            this.bulletPoolRight,
+            this.bomb.hitBomb,
+            this.bullet,
+            null,
+            this
+        );
         
     }
 

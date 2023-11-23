@@ -1,4 +1,4 @@
-class bombPrefab extends Phaser.GameObjects.Sprite
+class ampeterPrefab extends Phaser.GameObjects.Sprite
 {
     constructor(_scene,_posX,_posY,_spriteTag)
     {
@@ -6,18 +6,23 @@ class bombPrefab extends Phaser.GameObjects.Sprite
         _scene.add.existing(this);
         _scene.physics.world.enable(this);
         this.body.collideWorldBounds = true;
-        this.bomb = this;
+        this.ampeter = this;
         this.nivel=_scene;
         this.cursores = this.nivel.input.keyboard.createCursorKeys();  
-        //this.hitBomb();      
+        this.setColliders();      
     }
     
-    hitBomb(_bomb,_bullet)
+    setColliders()
     {
-        
-         _bullet.destroy();
-        _bomb.bomb.body.reset(config.width/2,config.height*.8);
-        
+        this.nivel.physics.add.overlap
+        (
+            this.nivel.bomb,
+            this.ampeter,
+            this.nivel.bomb.hitBomb,
+            this.ampeter,
+            null,
+            this
+        );
     }
    
     preUpdate(time,delta)
