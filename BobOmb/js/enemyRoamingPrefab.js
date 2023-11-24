@@ -8,22 +8,44 @@ class enemyRoamingPrefab extends Phaser.GameObjects.Sprite
         this.body.collideWorldBounds = true;
         this.enemy = this;
         this.nivel=_scene; 
+        this.direccion = 1;
+        this.body.setVelocityX(gamePrefs.ENEMY_SPEED*this.direccion);
+        this.setColliders();
+    }
+
+    setColliders()
+    {
+        this.nivel.physics.add.overlap
+        (
+            this.nivel.bomb,
+            this.enemy,
+            this.nivel.bomb.hitBomb,
+            null,
+            this.nivel.bomb
+        );
+
+        this.nivel.physics.add.collider
+        (
+            this.enemy,
+            this.nivel.walls
+        );
+    }
+
+    howItPatrols()
+    {
+        return (this.body.blocked.right ||this.body.blocked.left)
     }
 
 
     preUpdate(time,delta)
     {        
             
-        if(this.x <= 0)
+        if(this.howItPatrols())
         {
-            this.body.setVelocityX(gamePrefs.ENEMY_SPEED);
+            this.direccion *= -1;
+            this.body.setVelocityX(gamePrefs.ENEMY_SPEED*this.direccion);
+            this.flipX = !this.flipX;
         }
-        else if(this.x >= config.width)
-        {
-            this.body.setVelocityX(-gamePrefs.ENEMY_SPEED);
-        }
-        else
-        this.body.setVelocityX(gamePrefs.ENEMY_SPEED);
 
         super.preUpdate(time, delta); 
     }

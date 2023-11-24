@@ -40,6 +40,7 @@ class gameState extends Phaser.Scene
         + gamePrefs.LEVEL1_TIME, { fontSize: '16px', fill: '#fff' });
 
         this.bomb.anims.play('idle',false);
+        this.enemy.anims.play('enemyWalk',true);
         this.levelTimer = this.time.addEvent
         (
             {
@@ -136,6 +137,14 @@ class gameState extends Phaser.Scene
             frameRate: 8,
             repeat: -1
         });
+
+        this.anims.create(
+            {
+                key: 'enemyWalk',
+                frames:this.anims.generateFrameNumbers('enemy', {start:0, end: 2}),
+                frameRate: 8,
+                repeat: -1
+            });
     }
 
     loadSounds()
