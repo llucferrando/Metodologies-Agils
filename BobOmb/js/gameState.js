@@ -76,6 +76,16 @@ class gameState extends Phaser.Scene
                 repeat:-1
             }
         );
+
+        this.physics.add.overlap
+        (
+            this.bomb,
+            this.bulletPool,
+            this.bomb.hitBomb,
+            this.bullet,
+            null,
+            this
+        );
        
 
     }
