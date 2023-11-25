@@ -3,7 +3,9 @@ var gamePrefs=
     NAVE_SPEED:2,
     BULLET_SPEED:100,
     BOMB_SPEED:120,
-    LEVEL1_TIME:30
+    LEVEL1_TIME:30,
+    SCORE:0,
+   
     
 }
 
@@ -27,7 +29,8 @@ var config =
         default:'arcade',
         arcade:
         {
-            gravity:{y:0}
+            gravity:{y:0},
+            debug:true
         }
     }
 };

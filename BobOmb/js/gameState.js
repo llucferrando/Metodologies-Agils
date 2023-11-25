@@ -15,6 +15,8 @@ class gameState extends Phaser.Scene
         
         this.load.spritesheet('bomb','bombs.png',
         {frameWidth:16,frameHeight:25});
+        this.load.spritesheet('ampeter','bombEnemy.png',
+        {frameWidth:16,frameHeight:216});
 
         this.load.setPath('assets/sounds');
         this.load.audio('walk','snd_bomb_plop.mp3');
@@ -27,15 +29,22 @@ class gameState extends Phaser.Scene
         
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
+       
 
         this.loadAnimations();
         this.loadSounds();
         this.loadPools();
 
-        this.tiempoTexto = this.add.text(16, 16, 'Tiempo restante: ' 
+        //Text
+        this.tiempoTexto = this.add.text(16, 8, 'TIME LEFT:' 
         + gamePrefs.LEVEL1_TIME, { fontSize: '16px', fill: '#fff' });
 
+        this.scoreText = this.add.text(150, 8, 'SCORE:' 
+        + gamePrefs.SCORE, { fontSize: '16px', fill: '#fff' });
+
+
         this.bomb.anims.play('idle',false);
+        
         this.levelTimer = this.time.addEvent
         (
             {
@@ -95,14 +104,30 @@ class gameState extends Phaser.Scene
                 loop:true //repeat: -1
             }
         );
+        this.scoreTimer=this.time.addEvent
+        (
+            {
+                delay:1000,
+                callback:this.scoreBomb,
+                callbackScope:this,
+                loop:true
+            }
+
+        )
 
        
+
+    }
+    scoreBomb()
+    {
+        this.scoreText.setText('SCORE:' + gamePrefs.SCORE);
+        gamePrefs.SCORE+=50;
 
     }
     timeReset(){
         //console.log('Entrando en funcion');
         gamePrefs.LEVEL1_TIME--;
-        this.tiempoTexto.setText('Tiempo restante: ' + gamePrefs.LEVEL1_TIME);
+        this.tiempoTexto.setText('TIME LEFT:' + gamePrefs.LEVEL1_TIME);
 
         if(gamePrefs.LEVEL1_TIME===0)
         {
@@ -117,8 +142,8 @@ class gameState extends Phaser.Scene
     
     PlaySound()
     {
-        this.walk.volume=0.003;
-        this.backgroundMusic.volume=0.01;
+        this.walk.volume=0.009;
+        this.backgroundMusic.volume=0.03;
         this.backgroundMusic.play();
         this.walk.play();
     }
@@ -132,6 +157,7 @@ class gameState extends Phaser.Scene
             frameRate: 8,
             repeat: -1
         });
+       
     }
 
     loadSounds()
@@ -150,9 +176,45 @@ class gameState extends Phaser.Scene
     loadPools()
     {
         this.bulletPoolUp = this.physics.add.group();
+        this.physics.add.overlap
+        (
+            this.bomb,
+            this.bulletPoolUp,
+            this.bomb.hitBomb,
+            this.bullet,
+            null,
+            this
+        );
         this.bulletPoolDown = this.physics.add.group();
-        this.bulletPoolLeft = this.physics.add.group();
-        this.bulletPoolRight = this.physics.add.group();
+        this.physics.add.overlap
+        (
+            this.bomb,
+            this.bulletPoolDown,
+            this.bomb.hitBomb,
+            this.bullet,
+            null,
+            this
+        );
+        this.bulletPoolLeft = this.physics.add.group();  
+        this.physics.add.overlap
+        (
+            this.bomb,
+            this.bulletPoolLeft,
+            this.bomb.hitBomb,
+            this.bullet,
+            null,
+            this
+        );
+        this.bulletPoolRight = this.physics.add.group(); 
+         this.physics.add.overlap
+        (
+            this.bomb,
+            this.bulletPoolRight,
+            this.bomb.hitBomb,
+            this.bullet,
+            null,
+            this
+        );
         
     }
 
