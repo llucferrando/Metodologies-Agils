@@ -10,12 +10,9 @@ class bulletPrefab extends Phaser.GameObjects.Sprite
         this.body.collideWorldBounds = true;
         this.nivel = _scene;
         this.bullet = this;
-        this.setColliders();
+        //this.setColliders();
     }
-    setColliders()
-    {
-       
-    }
+    
     preUpdate()
     {
         if(this.y<=0 || this.y>=config.height)

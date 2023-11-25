@@ -35,8 +35,13 @@ class gameState extends Phaser.Scene
         this.loadSounds();
         this.loadPools();
 
-        this.tiempoTexto = this.add.text(16, 16, 'Tiempo restante: ' 
+        //Text
+        this.tiempoTexto = this.add.text(16, 8, 'TIME LEFT:' 
         + gamePrefs.LEVEL1_TIME, { fontSize: '16px', fill: '#fff' });
+
+        this.scoreText = this.add.text(150, 8, 'SCORE:' 
+        + gamePrefs.SCORE, { fontSize: '16px', fill: '#fff' });
+
 
         this.bomb.anims.play('idle',false);
         
@@ -99,14 +104,30 @@ class gameState extends Phaser.Scene
                 loop:true //repeat: -1
             }
         );
+        this.scoreTimer=this.time.addEvent
+        (
+            {
+                delay:1000,
+                callback:this.scoreBomb,
+                callbackScope:this,
+                loop:true
+            }
+
+        )
 
        
+
+    }
+    scoreBomb()
+    {
+        this.scoreText.setText('SCORE:' + gamePrefs.SCORE);
+        gamePrefs.SCORE+=50;
 
     }
     timeReset(){
         //console.log('Entrando en funcion');
         gamePrefs.LEVEL1_TIME--;
-        this.tiempoTexto.setText('Tiempo restante: ' + gamePrefs.LEVEL1_TIME);
+        this.tiempoTexto.setText('TIME LEFT:' + gamePrefs.LEVEL1_TIME);
 
         if(gamePrefs.LEVEL1_TIME===0)
         {
