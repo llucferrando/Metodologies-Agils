@@ -28,6 +28,18 @@ class gameState extends Phaser.Scene
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
 
+        //Up Spawner
+        this.upSpawner = new bulletSpawnerPrefab(this,16,config.width-16,-20,-5,0,1,1200,1800);
+        //Down Spawner
+        this.downSpawner = new bulletSpawnerPrefab(this,16,config.width-16,config.height+5,config.height+20,0,-1,1200,1800);
+        //Right Spawner
+        this.RightSpawner = new bulletSpawnerPrefab(this,config.width+5,config.width+20,config.height/2+20,config.height-20,-1,0,1200,1800);
+        //Left Spawner
+        this.LeftSpawner = new bulletSpawnerPrefab(this,-20,-5,config.height/2+20,config.height-20,1,0,1200,1800);
+        //Diagonal Spawner
+        this.DiagonalSpawner = new bulletSpawnerPrefab(this,-20,-5,config.height/4+20,config.height-config.height/4-20,1,1,1200,1800);
+
+
         this.loadAnimations();
         this.loadSounds();
         this.loadPools();
@@ -36,6 +48,7 @@ class gameState extends Phaser.Scene
         + gamePrefs.LEVEL1_TIME, { fontSize: '16px', fill: '#fff' });
 
         this.bomb.anims.play('idle',false);
+
         this.levelTimer = this.time.addEvent
         (
             {
@@ -55,50 +68,10 @@ class gameState extends Phaser.Scene
                 repeat:-1
             }
         );
-
-        this.bulletTimerDown = this.time.addEvent
-        (
-            {
-                delay: 500, //ms             
-                callback: this.createBulletDown,
-                callbackScope:this,
-                loop:true //repeat: -1
-            }
-        );
-
-        this.bulletTimerUp = this.time.addEvent
-        (
-            {
-                delay: 500, //ms             
-                callback: this.createBulletUp,
-                callbackScope:this,
-                loop:true //repeat: -1
-            }
-        );
-
-        this.bulletTimerRight = this.time.addEvent
-        (
-            {
-                delay: 500, //ms             
-                callback: this.createBulletRight,
-                callbackScope:this,
-                loop:true //repeat: -1
-            }
-        );
-
-        this.bulletTimerLeft = this.time.addEvent
-        (
-            {
-                delay: 500, //ms             
-                callback: this.createBulletLeft,
-                callbackScope:this,
-                loop:true //repeat: -1
-            }
-        );
-
        
 
     }
+    
     timeReset(){
         //console.log('Entrando en funcion');
         gamePrefs.LEVEL1_TIME--;
@@ -109,8 +82,6 @@ class gameState extends Phaser.Scene
             console.log('Nivel reset');
             this.bomb.body.reset(config.width/2,config.height*.8);
             gamePrefs.LEVEL1_TIME = 30;
-            
-
         }
         
     }
@@ -140,131 +111,14 @@ class gameState extends Phaser.Scene
         this.backgroundMusic=this.sound.add('bg_music').setLoop(true);
     }
 
+    loadPools()
+    {
+        this.bulletPool = this.physics.add.group();
+    }
+
     update()
     { //Actualiza whatever         
        
        
     }
-
-
-    loadPools()
-    {
-        this.bulletPoolUp = this.physics.add.group();
-        this.bulletPoolDown = this.physics.add.group();
-        this.bulletPoolLeft = this.physics.add.group();
-        this.bulletPoolRight = this.physics.add.group();
-        
-    }
-
-    createBulletDown()
-    {
-        //Mirar si hay alguna bala reciclable en la pool
-        var _bullet = this.bulletPoolDown.getFirst(false);
-
-        var posX = Phaser.Math.Between(16,config.width-16);
-        var posY = 0;
-        
-        
-        if(!_bullet)
-        {//Que no? La creo
-            console.log('creando bala');
-            _bullet = new bulletPrefab(this,posX,posY,'bullet');
-            this.bulletPoolDown.add(_bullet);
-        }else
-        {//Que si? La reciclo
-            console.log('reciclando bala');
-                _bullet.body.reset(posX,posY);                      
-            _bullet.active = true;
-        }
-        //Hago cosas con la bala
-        //Dar velocidad
-        _bullet.body.setVelocityY(gamePrefs.BULLET_SPEED);
-        //Ejecuta sonido
-        
-    }
-
-    createBulletUp()
-    {
-        //Mirar si hay alguna bala reciclable en la pool
-        var _bullet = this.bulletPoolUp.getFirst(false);
-
-        var posX = Phaser.Math.Between(16,config.width-16);
-        var posY = 0;
-        
-        
-        if(!_bullet)
-        {//Que no? La creo
-            console.log('creando bala');
-            _bullet = new bulletPrefab(this,posX,config.height,'bullet');
-            this.bulletPoolUp.add(_bullet);
-        }else
-        {//Que si? La reciclo
-            console.log('reciclando bala');
-                _bullet.body.reset(posX,config.height);                      
-            _bullet.active = true;
-        }
-        //Hago cosas con la bala
-        //Dar velocidad
-        _bullet.body.setVelocityY(gamePrefs.BULLET_SPEED * -1);
-        //Ejecuta sonido
-        
-    }
-
-    createBulletLeft()
-    {
-        //Mirar si hay alguna bala reciclable en la pool
-        var _bullet = this.bulletPoolLeft.getFirst(false);
-
-        var posX = Phaser.Math.Between(16,config.height-16);
-        var posY = 0;
-        
-        
-        if(!_bullet)
-        {//Que no? La creo
-            console.log('creando bala');
-            _bullet = new bulletPrefab(this,posY,posX,'bullet');
-            this.bulletPoolLeft.add(_bullet);
-        }else
-        {//Que si? La reciclo
-            console.log('reciclando bala');
-                _bullet.body.reset(posY,posX);                      
-            _bullet.active = true;
-        }
-        //Hago cosas con la bala
-        //Dar velocidad
-        _bullet.body.setVelocityX(gamePrefs.BULLET_SPEED );
-        //Ejecuta sonido
-        
-    }
-
-    createBulletRight()
-    {
-        //Mirar si hay alguna bala reciclable en la pool
-        var _bullet = this.bulletPoolRight.getFirst(false);
-
-        var posX = Phaser.Math.Between(16,config.height-16);
-        var posY = 0;
-        
-        
-        if(!_bullet)
-        {//Que no? La creo
-            console.log('creando bala');
-            _bullet = new bulletPrefab(this,config.width,posX,'bullet');
-            this.bulletPoolRight.add(_bullet);
-        }else
-        {//Que si? La reciclo
-            console.log('reciclando bala');
-                _bullet.body.reset(config.width,posX);                      
-            _bullet.active = true;
-        }
-        //Hago cosas con la bala
-        //Dar velocidad
-        _bullet.body.setVelocityX(gamePrefs.BULLET_SPEED *-1);
-        //Ejecuta sonido
-        
-    }
-
-    
-    
-       
 }
