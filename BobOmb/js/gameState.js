@@ -142,8 +142,8 @@ class gameState extends Phaser.Scene
     
     PlaySound()
     {
-        this.walk.volume=0.003;
-        this.backgroundMusic.volume=0.01;
+        this.walk.volume=0.009;
+        this.backgroundMusic.volume=0.03;
         this.backgroundMusic.play();
         this.walk.play();
     }
