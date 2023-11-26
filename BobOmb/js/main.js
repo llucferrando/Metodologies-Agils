@@ -4,8 +4,7 @@ var gamePrefs=
     BULLET_SPEED:100,
     BOMB_SPEED:120,
     LEVEL1_TIME:30,
-    ENEMY_SPEED:100
-    LEVEL1_TIME:30,
+    ENEMY_SPEED:100,
     SCORE:0,
    
     
