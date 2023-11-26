@@ -31,6 +31,8 @@ class gameState extends Phaser.Scene
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
         this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.8,'enemy');
+        
+
 
         this.loadAnimations();
         this.loadSounds();
@@ -102,6 +104,8 @@ class gameState extends Phaser.Scene
         );
 
        
+        
+        
 
     }
     timeReset(){
@@ -155,8 +159,8 @@ class gameState extends Phaser.Scene
 
     update()
     { //Actualiza whatever         
-       
-       
+        
+        
     }
 
 

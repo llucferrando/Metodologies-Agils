@@ -11,6 +11,8 @@ class enemyRoamingPrefab extends Phaser.GameObjects.Sprite
         this.direccion = 1;
         this.body.setVelocityX(gamePrefs.ENEMY_SPEED*this.direccion);
         this.setColliders();
+
+        
     }
 
     setColliders()
@@ -19,9 +21,9 @@ class enemyRoamingPrefab extends Phaser.GameObjects.Sprite
         (
             this.nivel.bomb,
             this.enemy,
-            this.nivel.bomb.hitBomb,
+            this.nivel.bomb.resetScene,
             null,
-            this.nivel.bomb
+            this.nivel
         );
 
         this.nivel.physics.add.collider
@@ -35,6 +37,8 @@ class enemyRoamingPrefab extends Phaser.GameObjects.Sprite
     {
         return (this.body.blocked.right ||this.body.blocked.left)
     }
+
+    
 
 
     preUpdate(time,delta)
