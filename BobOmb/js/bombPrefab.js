@@ -34,6 +34,12 @@ class bombPrefab extends Phaser.GameObjects.Sprite
       this.reset();
     }
 
+    resetScene()
+    {
+        this.scene.restart(); 
+    }
+    
+
    
     preUpdate(time,delta)
     {        
