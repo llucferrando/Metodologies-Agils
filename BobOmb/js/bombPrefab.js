@@ -14,15 +14,11 @@ class bombPrefab extends Phaser.GameObjects.Sprite
     
     hitBomb(_bomb,_bullet)
     {
+        gamePrefs.SCORE=0;
+         _bullet.destroy();
+        _bomb.bomb.body.reset(config.width/2,config.height*.8);
         
-       
-        if(_bomb.body.touching.up && _bomb.body.touching.down && _bomb.body.blocked.left && _bomb.body.blocked.right)
-        {
-            _bullet.destroy();
-            _bomb.reset(config.width/2,config.height*.8);
-        }
-
-
+        
     }
    
     death(_bomb,_collisionAgent)
