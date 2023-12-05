@@ -12,6 +12,7 @@ class gameState extends Phaser.Scene
         this.load.image('bg_top','topbg.png');
         this.load.image('bg_down','downbg.png');
         this.load.image('bullet','fireball.png');
+        this.load.image('obstacle','obstacle.png');
         
         this.load.spritesheet('bomb','bombs.png',
         {frameWidth:16,frameHeight:25});
@@ -33,7 +34,12 @@ class gameState extends Phaser.Scene
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
         this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.8,'enemy');
-        
+
+        this.obstacle = new obstaclePrefab(this,config.width/2,config.height/1.5,'obstacle');
+        this.obstacle = new obstaclePrefab(this,config.width/2,config.height/1.1,'obstacle');
+        this.obstacle = new obstaclePrefab(this,config.width/1.5,config.height/1.3,'obstacle');
+        this.obstacle = new obstaclePrefab(this,config.width/3.5,config.height/1.3,'obstacle');
+
 
         //Up Spawner
         this.upSpawner = new bulletSpawnerPrefab(this,16,config.width-16,-20,-5,0,1,1200,1800);
