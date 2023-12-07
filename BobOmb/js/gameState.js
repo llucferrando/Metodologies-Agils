@@ -8,19 +8,7 @@ class gameState extends Phaser.Scene
     preload()
     { //Carga assets en memoria
         //this.cameras.main.setBackgroundColor("112"); 
-        this.load.setPath('assets/img');
-        this.load.image('bg_top','topbg.png');
-        this.load.image('bg_down','downbg.png');
-        this.load.image('bullet','fireball.png');
-        this.load.image('obstacle','obstacle.png');
-        
-        this.load.spritesheet('bomb','bombs.png',
-        {frameWidth:16,frameHeight:25});
-        this.load.spritesheet('ampeter','bombEnemy.png',
-        {frameWidth:16,frameHeight:216});
-
-        this.load.spritesheet('enemy','bombEnemy.png',
-        {frameWidth:16,frameHeight:16});
+    
 
         this.load.setPath('assets/sounds');
         this.load.audio('walk','snd_bomb_plop.mp3');
@@ -76,6 +64,16 @@ class gameState extends Phaser.Scene
                 loop:true //repeat: -1
             }
         );
+        this.scoreTimer=this.time.addEvent
+        (
+            {
+                delay:1000,
+                callback:this.scoreBomb,
+                callbackScope:this,
+                loop:true
+            }
+
+        );
         this.plopTimer = this.time.addEvent
         (
             {
@@ -97,8 +95,6 @@ class gameState extends Phaser.Scene
             this
         );
        
-        
-        
 
     }
     scoreBomb()
