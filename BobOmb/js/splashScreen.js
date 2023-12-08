@@ -16,9 +16,16 @@ class splashScreen extends Phaser.Scene
    preload()
    { //Cargamos assets
     
-        this.load.setPath('assets/fonts/');
-        this.load.bitmapFont('UIFont','gameFont.png','gameFont.xml'); 
-        this.iniciaJuego();
+     this.load.setPath('assets/fonts/');
+     this.load.bitmapFont('gameFont','gameFont.png','gameFont.xml'); 
+     this.load.setPath('assets/img');
+     this.load.image('splash_screen', 'splash_screen.png');
+     this.load.on('complete',function()
+     {
+         console.log('completed');
+         this.finalizaCarga();
+     },this);
+        
         
        
    }
@@ -27,46 +34,27 @@ class splashScreen extends Phaser.Scene
 
    finalizaCarga()
    {
-    
+     
+     this.splashscreen = this.add.sprite(0,0,'splash_screen').setOrigin(0);
+  
+      this.time.addEvent(
+          {
+              delay: 5000,
+              callback: this.initMenu,
+              callbackScope: this,
+              repeat: 0
+          }
+      );
 
    }
-
-   runBomb()
-   {
    
-   }
 
    
-
-   ocultaLoader()
-   {
-       
-      
-   }
-
-   loadAnimations()
-   {
-    this.anims.create(
-        {
-            key: 'idle',
-            frames:this.anims.generateFrameNumbers('bomb', {start:0, end: 1}),
-            frameRate: 8,
-            repeat: -1
-        });
-
-        this.anims.create(
-            {
-                key: 'enemyWalk',
-                frames:this.anims.generateFrameNumbers('enemy', {start:0, end: 2}),
-                frameRate: 8,
-                repeat: -1
-            });
-   }
-
-   iniciaJuego()
+   initMenu()
    {
         this.scene.start('gameState');
    }
+
 
 
 
