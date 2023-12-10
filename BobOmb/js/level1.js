@@ -24,13 +24,13 @@ class level1 extends Phaser.Scene
 
 
         //Up Spawner
-        this.upSpawner = new bulletSpawnerPrefab(this,16,config.width-16,-20,-5,0,1,1200,1800);
+        this.upSpawner = new bulletSpawnerPrefab(this,16,config.width-16,-20,-5,0,1,1800,2200);
         //Down Spawner
-        this.downSpawner = new bulletSpawnerPrefab(this,16,config.width-16,config.height+5,config.height+20,0,-1,1200,1800);
+        this.downSpawner = new bulletSpawnerPrefab(this,16,config.width-16,config.height+5,config.height+20,0,-1,1800,2200);
         //Right Spawner
-        this.RightSpawner = new bulletSpawnerPrefab(this,config.width+5,config.width+20,config.height/2+20,config.height-20,-1,0,1200,1800);
+        this.RightSpawner = new bulletSpawnerPrefab(this,config.width+5,config.width+20,config.height/2+20,config.height-20,-1,0,1800,2200);
         //Left Spawner
-        this.LeftSpawner = new bulletSpawnerPrefab(this,-20,-5,config.height/2+20,config.height-20,1,0,1200,1800);
+        this.LeftSpawner = new bulletSpawnerPrefab(this,-20,-5,config.height/2+20,config.height-20,1,0,1800,2200);
 
 
         this.loadAnimations();
@@ -51,7 +51,7 @@ class level1 extends Phaser.Scene
         (
             {
                 delay: 1000, //ms             
-                callback: this.endLevel,
+                callback: this.timeReset,
                 callbackScope:this,
                 loop:true //repeat: -1
             }
@@ -81,7 +81,7 @@ class level1 extends Phaser.Scene
         (
             this.bomb,
             this.bulletPool,
-            this.timeReset,
+            this.bomb.hitBomb,
             this.bullet,
             null,
             this
@@ -95,18 +95,6 @@ class level1 extends Phaser.Scene
         gamePrefs.SCORE+=50;
 
     }
-    endLevel(){
-        //console.log('Entrando en funcion');
-        gamePrefs.LEVEL1_TIME--;
-        this.tiempoTexto.setText('TIME LEFT:' + gamePrefs.LEVEL1_TIME);
-
-        if(gamePrefs.LEVEL1_TIME===0)
-        {
-            this.scene.start('level2')
-        }
-        
-    }
-
     timeReset(){
         //console.log('Entrando en funcion');
         gamePrefs.LEVEL1_TIME--;
@@ -114,9 +102,10 @@ class level1 extends Phaser.Scene
 
         if(gamePrefs.LEVEL1_TIME===0)
         {
-            console.log('Nivel reset');
-            this.bomb.body.reset(config.width/2,config.height*.8);
             gamePrefs.LEVEL1_TIME = 30;
+            this.walk.stop();
+            this.backgroundMusic.stop();
+            this.scene.start('level2')
         }
         
     }

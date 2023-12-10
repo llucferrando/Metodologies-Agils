@@ -23,11 +23,6 @@ class level2 extends Phaser.Scene
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
         this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.8,'enemy');
 
-        this.obstacle = new obstaclePrefab(this,config.width/2,config.height/1.5,'obstacle');
-        this.obstacle = new obstaclePrefab(this,config.width/2,config.height/1.1,'obstacle');
-        this.obstacle = new obstaclePrefab(this,config.width/1.5,config.height/1.3,'obstacle');
-        this.obstacle = new obstaclePrefab(this,config.width/3.5,config.height/1.3,'obstacle');
-
 
         //Up Spawner
         this.upSpawner = new bulletSpawnerPrefab(this,16,config.width-16,-20,-5,0,1,1200,1800);
@@ -110,6 +105,9 @@ class level2 extends Phaser.Scene
 
         if(gamePrefs.LEVEL1_TIME===0)
         {
+            gamePrefs.LEVEL1_TIME = 30;
+            this.walk.stop();
+            this.backgroundMusic.stop();
             this.scene.start('level3')
         }
         

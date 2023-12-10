@@ -8,8 +8,7 @@ class bombPrefab extends Phaser.GameObjects.Sprite
         this.body.collideWorldBounds = true;
         this.bomb = this;
         this.nivel=_scene;
-        this.cursores = this.nivel.input.keyboard.createCursorKeys();  
-        //this.hitBomb();      
+        this.cursores = this.nivel.input.keyboard.createCursorKeys();   
     }
     
     hitBomb(_bomb,_bullet)
@@ -28,13 +27,7 @@ class bombPrefab extends Phaser.GameObjects.Sprite
       _collisionAgent.deActivate();      
 
       this.reset();
-    }
-
-    resetScene()
-    {
-        this.scene.restart(); 
-    }
-    
+    }    
 
    
     preUpdate(time,delta)

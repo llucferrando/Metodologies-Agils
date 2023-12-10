@@ -21,7 +21,7 @@ class enemyRoamingPrefab extends Phaser.GameObjects.Sprite
         (
             this.nivel.bomb,
             this.enemy,
-            this.nivel.bomb.resetScene,
+            this.nivel.bomb.hitBomb,
             null,
             this.nivel
         );
