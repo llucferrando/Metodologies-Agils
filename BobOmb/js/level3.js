@@ -2,7 +2,7 @@ class level3 extends Phaser.Scene
 {
     constructor()
     {
-        super({key:'gameState'});
+        super({key:'level3'});
     }
 
     preload()
