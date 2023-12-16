@@ -9,6 +9,7 @@ class bombPrefab extends Phaser.GameObjects.Sprite
         this.bomb = this;
         this.nivel=_scene;
         this.cursores = this.nivel.input.keyboard.createCursorKeys();   
+        this.nivel.input.mouse.disableContextMenu();
     }
     
     hitBomb(_bomb,_bullet)
@@ -32,7 +33,7 @@ class bombPrefab extends Phaser.GameObjects.Sprite
    
     preUpdate(time,delta)
     {        
-        if(this.cursores.left.isDown)
+        /*if(this.cursores.left.isDown)
             this.body.setVelocityX(-gamePrefs.BOMB_SPEED);
         else if(this.cursores.right.isDown)
             this.body.setVelocityX(gamePrefs.BOMB_SPEED);
@@ -55,7 +56,13 @@ class bombPrefab extends Phaser.GameObjects.Sprite
             this.y = config.height-20;
         else if(this.y <= config.height/2+20)
             this.y = config.height/2+20;
-
+        */
         super.preUpdate(time, delta); 
+
+        // Mueve la bomba hacia la posición del cursor
+        this.x = this.nivel.input.x;
+        this.y = this.nivel.input.y;
     }
+ 
+    
 }
