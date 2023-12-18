@@ -152,6 +152,11 @@ class level2 extends Phaser.Scene
         
     }
 
+    updateHealth()
+    {
+        this.healthUI.setFrame(this.bomb.health-1);
+    }
+
 
     loadPools()
     {
@@ -162,5 +167,10 @@ class level2 extends Phaser.Scene
     { //Actualiza whatever         
        
        
+    }
+
+    resetScene()
+    {
+        this.scene.restart(); 
     }
 }

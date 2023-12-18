@@ -18,6 +18,8 @@ class gameState extends Phaser.Scene
     {
         this.bg_top= this.add.sprite(0,0,'bg_top').setOrigin(0);
         this.bg_down=this.add.sprite(0,192, 'bg_down').setOrigin(0);
+
+        
         
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
@@ -51,6 +53,10 @@ class gameState extends Phaser.Scene
 
         this.scoreText = this.add.text(150, 8, 'SCORE:' 
         + gamePrefs.SCORE, { fontSize: '16px', fill: '#fff' });
+
+        this.healthUI = this.add.sprite(16,20,'bobomb_hearts',this.bomb.health-1)
+        .setOrigin(0)
+        .setScrollFactor(0);
 
 
         this.bomb.anims.play('idle',false);
@@ -103,6 +109,12 @@ class gameState extends Phaser.Scene
         gamePrefs.SCORE+=50;
 
     }
+
+    updateHealth()
+    {
+        this.healthUI.setFrame(this.bomb.health-1);
+    }
+
     timeReset(){
         //console.log('Entrando en funcion');
         gamePrefs.LEVEL1_TIME--;

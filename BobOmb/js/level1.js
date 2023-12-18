@@ -13,6 +13,10 @@ class level1 extends Phaser.Scene
         this.load.setPath('assets/sounds');
         this.load.audio('walk','snd_bomb_plop.mp3');
         this.load.audio('bg_music','snd_music.mp3');
+
+        this.load.setPath('assets/img');
+        this.load.spritesheet('healthUI','bobomb_hearts.png',
+        {frameWidth:900,frameHeight:300});
     }
     create()
     {
@@ -43,6 +47,11 @@ class level1 extends Phaser.Scene
 
         this.scoreText = this.add.text(150, 8, 'SCORE:' 
         + gamePrefs.SCORE, { fontSize: '16px', fill: '#fff' });
+
+        this.healthUI = this.add.sprite(20,20,'healthUI',this.bomb.health)
+        .setOrigin(0)
+        .setScrollFactor(0)
+        .setScale(.1);
 
 
         this.bomb.anims.play('idle',false);
@@ -149,6 +158,10 @@ class level1 extends Phaser.Scene
         
     }
 
+    updateHealth()
+    {
+        this.healthUI.setFrame(this.bomb.health);
+    }
 
     loadPools()
     {
@@ -159,5 +172,10 @@ class level1 extends Phaser.Scene
     { //Actualiza whatever         
        
        
+    }
+
+    resetScene()
+    {
+        this.scene.restart(); 
     }
 }
