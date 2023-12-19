@@ -1,6 +1,7 @@
 var gamePrefs=
 {
     NAVE_SPEED:2,
+    MAX_LIVES:3,
     BULLET_SPEED:100,
     BOMB_SPEED:120,
     LEVEL1_TIME:30,

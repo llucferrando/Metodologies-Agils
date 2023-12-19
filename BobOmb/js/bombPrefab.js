@@ -7,6 +7,7 @@ class bombPrefab extends Phaser.GameObjects.Sprite
         _scene.physics.world.enable(this);
         this.body.collideWorldBounds = true;
         this.bomb = this;
+        this.health = gamePrefs.MAX_LIVES;
         this.nivel=_scene;
         this.cursores = this.nivel.input.keyboard.createCursorKeys();   
         this.nivel.input.mouse.disableContextMenu();
@@ -14,9 +15,21 @@ class bombPrefab extends Phaser.GameObjects.Sprite
     
     hitBomb(_bomb,_bullet)
     {
-        gamePrefs.SCORE=0;
-         _bullet.destroy();
-        _bomb.bomb.body.reset(config.width/2,config.height*.8);
+        if(_bomb.health <= 0)
+        {           
+            _bomb.nivel.createExplosion(_bomb);
+            _bomb.nivel.resetScene();    
+            _bomb.destroy();            
+        }
+        else
+        {
+            gamePrefs.SCORE=0;
+            _bullet.destroy();
+           _bomb.bomb.body.reset(config.width/2,config.height*.8);
+           _bomb.health--;
+           console.log(_bomb.health);
+           _bomb.nivel.updateHealth();
+        }
         
         
     }
@@ -29,6 +42,8 @@ class bombPrefab extends Phaser.GameObjects.Sprite
 
       this.reset();
     }    
+
+    
 
    
     preUpdate(time,delta)
@@ -46,7 +61,7 @@ class bombPrefab extends Phaser.GameObjects.Sprite
             this.body.setVelocityY(gamePrefs.BOMB_SPEED);
         else
             this.body.setVelocityY(0);
-
+*/
         if(this.x<=20)
             this.x = 20;
         else if(this.x>=config.width-20)
@@ -56,7 +71,7 @@ class bombPrefab extends Phaser.GameObjects.Sprite
             this.y = config.height-20;
         else if(this.y <= config.height/2+20)
             this.y = config.height/2+20;
-        */
+        
         super.preUpdate(time, delta); 
 
         // Mueve la bomba hacia la posición del cursor
