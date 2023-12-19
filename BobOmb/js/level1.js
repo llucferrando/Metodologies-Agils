@@ -17,6 +17,10 @@ class level1 extends Phaser.Scene
         this.load.setPath('assets/img');
         this.load.spritesheet('healthUI','bobomb_hearts.png',
         {frameWidth:900,frameHeight:300});
+
+        this.load.spritesheet('death','anyrgb.com.png',
+        {frameWidth:240,frameHeight:157.5});
+
     }
     create()
     {
@@ -144,6 +148,15 @@ class level1 extends Phaser.Scene
                 frameRate: 8,
                 repeat: -1
             });
+
+            this.anims.create({
+                key: 'deathAnim',
+                frames: this.anims.generateFrameNumbers('death', { start: 0, end: 19 }),
+                frameRate: 10,
+                repeat: 0,
+                showOnStart:true,
+                hideOnComplete:true            
+            });
     }
 
     loadSounds()
@@ -156,6 +169,14 @@ class level1 extends Phaser.Scene
     { //Actualiza whatever         
         
         
+    }
+
+    createExplosion(_bomb)
+    {
+
+            console.log('Create explosion');
+            this.death = new deathPrefab(this,_bomb.x,_bomb.y,'death');
+              
     }
 
     updateHealth()
@@ -176,7 +197,7 @@ class level1 extends Phaser.Scene
 
     resetScene()
     {
-        this.cameras.main.fadeOut(2000, 0, 0, 0);
+        this.cameras.main.fadeOut(1500, 0, 0, 0);
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
             this.scene.start('menu')
         

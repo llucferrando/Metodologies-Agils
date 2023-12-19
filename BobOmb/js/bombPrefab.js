@@ -17,6 +17,7 @@ class bombPrefab extends Phaser.GameObjects.Sprite
     {
         if(_bomb.health <= 0)
         {           
+            _bomb.nivel.createExplosion(_bomb);
             _bomb.nivel.resetScene();    
             _bomb.destroy();            
         }
