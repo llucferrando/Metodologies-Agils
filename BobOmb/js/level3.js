@@ -31,7 +31,7 @@ class level3 extends Phaser.Scene
         {frameWidth:900,frameHeight:300});
 
         this.load.spritesheet('death','anyrgb.com.png',
-        {frameWidth:240,frameHeight:157.5});
+        {frameWidth:240,frameHeight:150});
     }
     create()
     {
