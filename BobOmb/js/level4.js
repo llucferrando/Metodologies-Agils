@@ -1,8 +1,8 @@
-class level1 extends Phaser.Scene
+class level4 extends Phaser.Scene
 {
     constructor()
     {
-        super({key:'level1'});
+        super({key:'level4'});
     }
 
     preload()
@@ -23,14 +23,8 @@ class level1 extends Phaser.Scene
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
 
 
-        //Up Spawner
-        this.upSpawner = new bulletSpawnerPrefab(this,16,config.width-16,-20,-5,0,1,1800,2200);
-        //Down Spawner
-        this.downSpawner = new bulletSpawnerPrefab(this,16,config.width-16,config.height+5,config.height+20,0,-1,1800,2200);
-        //Right Spawner
-        this.RightSpawner = new bulletSpawnerPrefab(this,config.width+5,config.width+20,config.height/2+20,config.height-20,-1,0,1800,2200);
-        //Left Spawner
-        this.LeftSpawner = new bulletSpawnerPrefab(this,-20,-5,config.height/2+20,config.height-20,1,0,1800,2200);
+        //Directed Spawner
+        this.directedSpawner = new directedBulletSpawnerPrefab(this,300,500);
 
 
         this.loadAnimations();
@@ -104,7 +98,7 @@ class level1 extends Phaser.Scene
             gamePrefs.LEVEL1_TIME = 30;
             this.walk.stop();
             this.backgroundMusic.stop();
-            this.scene.start('level2')
+            this.scene.start('level4')
         }
         
     }
@@ -140,12 +134,6 @@ class level1 extends Phaser.Scene
     {
         this.walk=this.sound.add('walk').setLoop(true);
         this.backgroundMusic=this.sound.add('bg_music').setLoop(true);
-    }
-
-    update()
-    { //Actualiza whatever         
-        
-        
     }
 
 

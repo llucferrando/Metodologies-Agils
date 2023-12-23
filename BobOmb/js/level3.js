@@ -114,9 +114,10 @@ class level3 extends Phaser.Scene
 
         if(gamePrefs.LEVEL1_TIME===0)
         {
-            console.log('Nivel reset');
-            this.bomb.body.reset(config.width/2,config.height*.8);
             gamePrefs.LEVEL1_TIME = 30;
+            this.walk.stop();
+            this.backgroundMusic.stop();
+            this.scene.start('level4')
         }
         
     }

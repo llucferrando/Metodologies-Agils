@@ -32,7 +32,11 @@ class bombPrefab extends Phaser.GameObjects.Sprite
 
    
     preUpdate(time,delta)
-    {        
+    {
+        this.x = this.nivel.input.x;
+        this.y = this.nivel.input.y;
+
+
         /*if(this.cursores.left.isDown)
             this.body.setVelocityX(-gamePrefs.BOMB_SPEED);
         else if(this.cursores.right.isDown)
@@ -45,7 +49,7 @@ class bombPrefab extends Phaser.GameObjects.Sprite
         else if(this.cursores.down.isDown)
             this.body.setVelocityY(gamePrefs.BOMB_SPEED);
         else
-            this.body.setVelocityY(0);
+            this.body.setVelocityY(0);*/
 
         if(this.x<=20)
             this.x = 20;
@@ -56,12 +60,9 @@ class bombPrefab extends Phaser.GameObjects.Sprite
             this.y = config.height-20;
         else if(this.y <= config.height/2+20)
             this.y = config.height/2+20;
-        */
+        
         super.preUpdate(time, delta); 
-
-        // Mueve la bomba hacia la posición del cursor
-        this.x = this.nivel.input.x;
-        this.y = this.nivel.input.y;
+        
     }
  
     

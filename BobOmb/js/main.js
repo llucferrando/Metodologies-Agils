@@ -1,11 +1,12 @@
 var gamePrefs=
 {
-    NAVE_SPEED:2,
     BULLET_SPEED:100,
     BOMB_SPEED:120,
     LEVEL1_TIME:30,
     ENEMY_SPEED:100,
     SCORE:0,
+    LEVEL_WIDTH:256,
+    LEVEL_HEIGHT:384
    
     
 }
@@ -13,9 +14,9 @@ var gamePrefs=
 var config = 
 {
     type: Phaser.AUTO,
-    width: 256,
-    height: 384,
-    scene:[preloader,splashScreen,menu,levelSelector,gameState,level1,level2,level3], //array con las escenas
+    width: gamePrefs.LEVEL_WIDTH,
+    height: gamePrefs.LEVEL_HEIGHT,
+    scene:[preloader,splashScreen,menu,levelSelector,gameState,level1,level2,level3,level4], //array con las escenas
     render:
     {
         pixelArt:true
