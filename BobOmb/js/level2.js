@@ -5,22 +5,6 @@ class level2 extends Phaser.Scene
         super({key:'level2'});
     }
 
-    preload()
-    { //Carga assets en memoria
-        //this.cameras.main.setBackgroundColor("112"); 
-    
-
-        this.load.setPath('assets/sounds');
-        this.load.audio('walk','snd_bomb_plop.mp3');
-        this.load.audio('bg_music','snd_music.mp3');
-
-        this.load.setPath('assets/img');
-        this.load.spritesheet('healthUI','bobomb_hearts.png',
-        {frameWidth:900,frameHeight:300});
-
-        this.load.spritesheet('death','anyrgb.com.png',
-        {frameWidth:240,frameHeight:150});
-    }
     create()
     {
         this.bg_top= this.add.sprite(0,0,'bg_top').setOrigin(0);
@@ -193,17 +177,14 @@ class level2 extends Phaser.Scene
         this.bulletPool = this.physics.add.group();
     }
 
-    update()
-    { //Actualiza whatever         
-       
-       
-    }
-
     resetScene()
     {
         this.cameras.main.fadeOut(1500, 0, 0, 0);
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-            this.scene.start('menu')
+            this.backgroundMusic.stop();
+            this.walk.stop();
+
+            this.scene.start('menu');
         
         })
     }

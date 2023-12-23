@@ -5,23 +5,12 @@ class level4 extends Phaser.Scene
         super({key:'level4'});
     }
 
-    preload()
-    { //Carga assets en memoria
-        //this.cameras.main.setBackgroundColor("112"); 
-    
-
-        this.load.setPath('assets/sounds');
-        this.load.audio('walk','snd_bomb_plop.mp3');
-        this.load.audio('bg_music','snd_music.mp3');
-    }
     create()
     {
         this.bg_top= this.add.sprite(0,0,'bg_top').setOrigin(0);
         this.bg_down=this.add.sprite(0,192, 'bg_down').setOrigin(0);
-        
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
-
 
         //Directed Spawner
         this.directedSpawner = new directedBulletSpawnerPrefab(this,300,500);
@@ -37,6 +26,11 @@ class level4 extends Phaser.Scene
 
         this.scoreText = this.add.text(150, 8, 'SCORE:' 
         + gamePrefs.SCORE, { fontSize: '16px', fill: '#fff' });
+
+        this.healthUI = this.add.sprite(20,20,'healthUI',this.bomb.health)
+        .setOrigin(0)
+        .setScrollFactor(0)
+        .setScale(.1);
 
 
         this.bomb.anims.play('idle',false);
@@ -140,6 +134,23 @@ class level4 extends Phaser.Scene
     loadPools()
     {
         this.bulletPool = this.physics.add.group();
+    }
+
+    updateHealth()
+    {
+        this.healthUI.setFrame(this.bomb.health);
+    }
+
+    resetScene()
+    {
+        this.cameras.main.fadeOut(1500, 0, 0, 0);
+        this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
+            this.backgroundMusic.stop();
+            this.walk.stop();
+
+            this.scene.start('menu');
+        
+        })
     }
 
     update()

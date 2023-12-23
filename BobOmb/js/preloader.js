@@ -12,11 +12,25 @@ class preloader extends Phaser.Scene
         this.load.image('bg_down','downbg.png');
         this.load.image('bullet','fireball.png');
         this.load.image('obstacle','obstacle.png');
+        this.load.spritesheet('healthUI','bobomb_hearts.png',
+        {frameWidth:900,frameHeight:300});
+        this.load.spritesheet('death','anyrgb.com.png',
+        {frameWidth:240,frameHeight:150});
         
         this.load.spritesheet('bomb','bombs.png',
         {frameWidth:16,frameHeight:25});
         this.load.spritesheet('enemy','bombEnemy.png',
         {frameWidth:16,frameHeight:16});
+
+        this.load.setPath('assets/img');
+        this.load.spritesheet('healthUI','bobomb_hearts.png',
+        {frameWidth:900,frameHeight:300});
+
+        this.load.setPath('assets/sounds');
+        this.load.audio('walk','snd_bomb_plop.mp3');
+        this.load.audio('bg_music','snd_music.mp3');
+
+        
         
 
 
