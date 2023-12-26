@@ -9,11 +9,27 @@ class level4 extends Phaser.Scene
     {
         this.bg_top= this.add.sprite(0,0,'bg_top').setOrigin(0);
         this.bg_down=this.add.sprite(0,192, 'bg_down').setOrigin(0);
+        
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
+        this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.8,'enemy');
 
-        //Directed Spawner
-        this.directedSpawner = new directedBulletSpawnerPrefab(this,300,500);
+        this.obstacle = new obstaclePrefab(this,config.width/2,config.height/1.5,'obstacle');
+        this.obstacle = new obstaclePrefab(this,config.width/2,config.height/1.1,'obstacle');
+        this.obstacle = new obstaclePrefab(this,config.width/1.5,config.height/1.3,'obstacle');
+        this.obstacle = new obstaclePrefab(this,config.width/3.5,config.height/1.3,'obstacle');
+
+
+        //Up Spawner
+        this.upSpawner = new bulletSpawnerPrefab(this,16,config.width-16,-20,-5,0,1,1200,1800);
+        //Down Spawner
+        this.downSpawner = new bulletSpawnerPrefab(this,16,config.width-16,config.height+5,config.height+20,0,-1,1200,1800);
+        //Right Spawner
+        this.RightSpawner = new bulletSpawnerPrefab(this,config.width+5,config.width+20,config.height/2+20,config.height-20,-1,0,1200,1800);
+        //Left Spawner
+        this.LeftSpawner = new bulletSpawnerPrefab(this,-20,-5,config.height/2+20,config.height-20,1,0,1200,1800);
+        //Diagonal Spawner
+        this.DiagonalSpawner = new bulletSpawnerPrefab(this,-20,-5,config.height/4+20,config.height-config.height/4-20,1,1,1200,1800);
 
 
         this.loadAnimations();
@@ -34,7 +50,7 @@ class level4 extends Phaser.Scene
 
 
         this.bomb.anims.play('idle',false);
-
+        this.enemy.anims.play('enemyWalk',true);
         this.levelTimer = this.time.addEvent
         (
             {
@@ -43,16 +59,6 @@ class level4 extends Phaser.Scene
                 callbackScope:this,
                 loop:true //repeat: -1
             }
-        );
-        this.scoreTimer=this.time.addEvent
-        (
-            {
-                delay:1000,
-                callback:this.scoreBomb,
-                callbackScope:this,
-                loop:true
-            }
-
         );
         this.plopTimer = this.time.addEvent
         (
@@ -75,12 +81,15 @@ class level4 extends Phaser.Scene
             this
         );
        
+        
+        
 
     }
     scoreBomb()
     {
-        gamePrefs.SCORE+=50;
         this.scoreText.setText('SCORE:' + gamePrefs.SCORE);
+        gamePrefs.SCORE+=50;
+
     }
     timeReset(){
         //console.log('Entrando en funcion');
@@ -92,7 +101,8 @@ class level4 extends Phaser.Scene
             gamePrefs.LEVEL1_TIME = 30;
             this.walk.stop();
             this.backgroundMusic.stop();
-            this.scene.start('level4')
+            gamePrefs.SCORE = 0;
+            this.scene.start('level5')
         }
         
     }
@@ -103,6 +113,14 @@ class level4 extends Phaser.Scene
         this.backgroundMusic.volume=0.03;
         this.backgroundMusic.play();
         this.walk.play();
+    }
+
+    createExplosion(_bomb)
+    {
+
+            console.log('Create explosion');
+            this.death = new deathPrefab(this,_bomb.x,_bomb.y,'death');
+              
     }
 
     loadAnimations()
@@ -122,6 +140,15 @@ class level4 extends Phaser.Scene
                 frameRate: 8,
                 repeat: -1
             });
+
+            this.anims.create({
+                key: 'deathAnim',
+                frames: this.anims.generateFrameNumbers('death', { start: 0, end: 19 }),
+                frameRate: 10,
+                repeat: 0,
+                showOnStart:true,
+                hideOnComplete:true            
+            });
     }
 
     loadSounds()
@@ -130,15 +157,27 @@ class level4 extends Phaser.Scene
         this.backgroundMusic=this.sound.add('bg_music').setLoop(true);
     }
 
+    update()
+    { //Actualiza whatever         
+        
+        
+    }
+
+    updateHealth()
+    {
+        this.healthUI.setFrame(this.bomb.health);
+    }
+
 
     loadPools()
     {
         this.bulletPool = this.physics.add.group();
     }
 
-    updateHealth()
-    {
-        this.healthUI.setFrame(this.bomb.health);
+    update()
+    { //Actualiza whatever         
+       
+       
     }
 
     resetScene()
@@ -147,15 +186,9 @@ class level4 extends Phaser.Scene
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
             this.backgroundMusic.stop();
             this.walk.stop();
-
-            this.scene.start('menu');
+            gamePrefs.SCORE = 0;
+            this.scene.start('menu')
         
         })
-    }
-
-    update()
-    { //Actualiza whatever         
-       
-       
     }
 }

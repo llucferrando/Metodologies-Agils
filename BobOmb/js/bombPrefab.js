@@ -24,6 +24,12 @@ class bombPrefab extends Phaser.GameObjects.Sprite
         else
         {
             gamePrefs.SCORE-=200;
+            if(gamePrefs.SCORE <=0)
+            {
+                gamePrefs.SCORE = 0;
+            }
+
+
             _bullet.destroy();
            _bomb.bomb.body.reset(config.width/2,config.height*.8);
            _bomb.health--;

@@ -12,7 +12,6 @@ class level3 extends Phaser.Scene
         
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
-        this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.8,'enemy');
 
         this.obstacle = new obstaclePrefab(this,config.width/2,config.height/1.5,'obstacle');
         this.obstacle = new obstaclePrefab(this,config.width/2,config.height/1.1,'obstacle');
@@ -50,7 +49,6 @@ class level3 extends Phaser.Scene
 
 
         this.bomb.anims.play('idle',false);
-        this.enemy.anims.play('enemyWalk',true);
         this.levelTimer = this.time.addEvent
         (
             {
@@ -101,6 +99,7 @@ class level3 extends Phaser.Scene
             gamePrefs.LEVEL1_TIME = 30;
             this.walk.stop();
             this.backgroundMusic.stop();
+            gamePrefs.SCORE = 0;
             this.scene.start('level4')
         }
         
@@ -131,14 +130,6 @@ class level3 extends Phaser.Scene
             frameRate: 8,
             repeat: -1
         });
-
-        this.anims.create(
-            {
-                key: 'enemyWalk',
-                frames:this.anims.generateFrameNumbers('enemy', {start:0, end: 2}),
-                frameRate: 8,
-                repeat: -1
-            });
 
             this.anims.create({
                 key: 'deathAnim',
@@ -185,6 +176,7 @@ class level3 extends Phaser.Scene
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
             this.backgroundMusic.stop();
             this.walk.stop();
+            gamePrefs.SCORE = 0;
             this.scene.start('menu')
         
         })

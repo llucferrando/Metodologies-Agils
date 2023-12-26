@@ -1,27 +1,19 @@
-class level1 extends Phaser.Scene
+class level5 extends Phaser.Scene
 {
     constructor()
     {
-        super({key:'level1'});
+        super({key:'level5'});
     }
 
     create()
     {
         this.bg_top= this.add.sprite(0,0,'bg_top').setOrigin(0);
         this.bg_down=this.add.sprite(0,192, 'bg_down').setOrigin(0);
-        
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
 
-
-        //Up Spawner
-        this.upSpawner = new bulletSpawnerPrefab(this,16,config.width-16,-20,-5,0,1,1800,2200);
-        //Down Spawner
-        this.downSpawner = new bulletSpawnerPrefab(this,16,config.width-16,config.height+5,config.height+20,0,-1,1800,2200);
-        //Right Spawner
-        this.RightSpawner = new bulletSpawnerPrefab(this,config.width+5,config.width+20,config.height/2+20,config.height-20,-1,0,1800,2200);
-        //Left Spawner
-        this.LeftSpawner = new bulletSpawnerPrefab(this,-20,-5,config.height/2+20,config.height-20,1,0,1800,2200);
+        //Directed Spawner
+        this.directedSpawner = new directedBulletSpawnerPrefab(this,300,500);
 
 
         this.loadAnimations();
@@ -101,7 +93,7 @@ class level1 extends Phaser.Scene
             this.walk.stop();
             this.backgroundMusic.stop();
             gamePrefs.SCORE = 0;
-            this.scene.start('level2')
+            this.scene.start('level5')
         }
         
     }
@@ -112,6 +104,14 @@ class level1 extends Phaser.Scene
         this.backgroundMusic.volume=0.03;
         this.backgroundMusic.play();
         this.walk.play();
+    }
+
+    createExplosion(_bomb)
+    {
+
+            console.log('Create explosion');
+            this.death = new deathPrefab(this,_bomb.x,_bomb.y,'death');
+              
     }
 
     loadAnimations()
@@ -148,34 +148,15 @@ class level1 extends Phaser.Scene
         this.backgroundMusic=this.sound.add('bg_music').setLoop(true);
     }
 
-    update()
-    { //Actualiza whatever         
-        
-        
-    }
-
-    createExplosion(_bomb)
-    {
-
-            console.log('Create explosion');
-            this.death = new deathPrefab(this,_bomb.x,_bomb.y,'death');
-              
-    }
-
-    updateHealth()
-    {
-        this.healthUI.setFrame(this.bomb.health);
-    }
 
     loadPools()
     {
         this.bulletPool = this.physics.add.group();
     }
 
-    update()
-    { //Actualiza whatever         
-       
-       
+    updateHealth()
+    {
+        this.healthUI.setFrame(this.bomb.health);
     }
 
     resetScene()
@@ -185,7 +166,14 @@ class level1 extends Phaser.Scene
             this.backgroundMusic.stop();
             this.walk.stop();
             gamePrefs.SCORE = 0;
-            this.scene.start('menu')
+            this.scene.start('menu');
+        
         })
+    }
+
+    update()
+    { //Actualiza whatever         
+       
+       
     }
 }

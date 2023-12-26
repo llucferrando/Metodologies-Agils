@@ -18,7 +18,7 @@ var config =
     type: Phaser.AUTO,
     width: gamePrefs.LEVEL_WIDTH,
     height: gamePrefs.LEVEL_HEIGHT,
-    scene:[preloader,splashScreen,menu,levelSelector,gameState,level1,level2,level3,level4], //array con las escenas
+    scene:[preloader,splashScreen,menu,levelSelector,gameState,level1,level2,level3,level4,level5], //array con las escenas
     render:
     {
         pixelArt:true
