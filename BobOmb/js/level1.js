@@ -100,7 +100,6 @@ class level1 extends Phaser.Scene
             gamePrefs.LEVEL1_TIME = 30;
             this.walk.stop();
             this.backgroundMusic.stop();
-            gamePrefs.SCORE = 0;
             this.scene.start('level2')
         }
         
@@ -184,7 +183,6 @@ class level1 extends Phaser.Scene
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
             this.backgroundMusic.stop();
             this.walk.stop();
-            gamePrefs.SCORE = 0;
             this.scene.start('menu')
         })
     }
