@@ -10,6 +10,7 @@ class level1 extends Phaser.Scene
         this.bg_top= this.add.sprite(0,0,'bg_top').setOrigin(0);
         this.bg_down=this.add.sprite(0,192, 'bg_down').setOrigin(0);
         
+        
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
 
@@ -22,7 +23,7 @@ class level1 extends Phaser.Scene
         this.RightSpawner = new bulletSpawnerPrefab(this,config.width+5,config.width+20,config.height/2+20,config.height-20,-1,0,1800,2200);
         //Left Spawner
         this.LeftSpawner = new bulletSpawnerPrefab(this,-20,-5,config.height/2+20,config.height-20,1,0,1800,2200);
-
+        
 
         this.loadAnimations();
         this.loadSounds();
@@ -97,11 +98,24 @@ class level1 extends Phaser.Scene
 
         if(gamePrefs.LEVEL1_TIME===0)
         {
+            this.add.sprite(config.width/2,config.height/2,'lvlpopup');
             gamePrefs.LEVEL1_TIME = 30;
             this.walk.stop();
             this.backgroundMusic.stop();
-            this.scene.start('level2')
+            this.time.addEvent
+            (
+                {
+
+                    delay:2000,
+                    callback:this.goToScene,
+                    callbackScope:this,
+                    loop:false
+                }
+
+            );
+            
         }
+        
         
     }
     
@@ -140,6 +154,12 @@ class level1 extends Phaser.Scene
                 hideOnComplete:true            
             });
     }
+    goToScene()
+    {
+        
+        this.scene.start('level2');
+        console.log('canviando escena');
+    }
 
     loadSounds()
     {
@@ -147,11 +167,6 @@ class level1 extends Phaser.Scene
         this.backgroundMusic=this.sound.add('bg_music').setLoop(true);
     }
 
-    update()
-    { //Actualiza whatever         
-        
-        
-    }
 
     createExplosion(_bomb)
     {
@@ -171,11 +186,6 @@ class level1 extends Phaser.Scene
         this.bulletPool = this.physics.add.group();
     }
 
-    update()
-    { //Actualiza whatever         
-       
-       
-    }
 
     resetScene()
     {

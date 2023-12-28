@@ -1,8 +1,8 @@
-class level5 extends Phaser.Scene
+class level6 extends Phaser.Scene
 {
     constructor()
     {
-        super({key:'level5'});
+        super({key:'level6'});
     }
 
     create()
@@ -11,6 +11,7 @@ class level5 extends Phaser.Scene
         this.bg_down=this.add.sprite(0,192, 'bg_down').setOrigin(0);
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
+        this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.8,'enemy');
 
         //Directed Spawner
         this.directedSpawner = new directedBulletSpawnerPrefab(this,300,500);
@@ -108,9 +109,8 @@ class level5 extends Phaser.Scene
     }
     goToScene()
     {
-        this.scene.start('level6');
+        this.scene.start('level7');
     }
-    
     PlaySound()
     {
         this.walk.volume=0.009;
@@ -189,4 +189,7 @@ class level5 extends Phaser.Scene
        
        
     }
+
+
+
 }

@@ -98,11 +98,20 @@ class level4 extends Phaser.Scene
 
         if(gamePrefs.LEVEL1_TIME===0)
         {
+            this.add.sprite(config.width/2,config.height/2,'lvlpopup');
             gamePrefs.LEVEL1_TIME = 30;
             this.walk.stop();
             this.backgroundMusic.stop();
-            gamePrefs.SCORE = 0;
-            this.scene.start('level5')
+            this.time.addEvent
+            (
+                {
+                    delay:2000,
+                    callback:this.goToScene,
+                    callbackScope:this,
+                    loop:false
+                }
+
+            );
         }
         
     }
@@ -121,6 +130,10 @@ class level4 extends Phaser.Scene
             console.log('Create explosion');
             this.death = new deathPrefab(this,_bomb.x,_bomb.y,'death');
               
+    }
+    goToScene()
+    {
+        this.scene.start('level5');
     }
 
     loadAnimations()

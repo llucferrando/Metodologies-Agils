@@ -12,6 +12,7 @@ class preloader extends Phaser.Scene
         this.load.image('bg_down','downbg.png');
         this.load.image('bullet','fireball.png');
         this.load.image('obstacle','obstacle.png');
+        this.load.image('lvlpopup','level_popup.png')
         this.load.spritesheet('healthUI','bobomb_hearts.png',
         {frameWidth:900,frameHeight:300});
         this.load.spritesheet('death','anyrgb.com.png',

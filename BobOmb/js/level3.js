@@ -96,11 +96,20 @@ class level3 extends Phaser.Scene
 
         if(gamePrefs.LEVEL1_TIME===0)
         {
+            this.add.sprite(config.width/2,config.height/2,'lvlpopup');
             gamePrefs.LEVEL1_TIME = 30;
             this.walk.stop();
             this.backgroundMusic.stop();
-            gamePrefs.SCORE = 0;
-            this.scene.start('level4')
+            this.time.addEvent
+            (
+                {
+                    delay:2000,
+                    callback:this.goToScene,
+                    callbackScope:this,
+                    loop:false
+                }
+
+            );
         }
         
     }
@@ -140,7 +149,10 @@ class level3 extends Phaser.Scene
                 hideOnComplete:true            
             });
     }
-
+    goToScene()
+    {
+        this.scene.start('level4');
+    }
     loadSounds()
     {
         this.walk=this.sound.add('walk').setLoop(true);

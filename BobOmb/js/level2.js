@@ -101,15 +101,27 @@ class level2 extends Phaser.Scene
 
         if(gamePrefs.LEVEL1_TIME===0)
         {
+            this.add.sprite(config.width/2,config.height/2,'lvlpopup');
             gamePrefs.LEVEL1_TIME = 30;
             this.walk.stop();
             this.backgroundMusic.stop();
-            gamePrefs.SCORE = 0;
-            this.scene.start('level3')
+            this.time.addEvent
+            (
+                {
+                    delay:2000,
+                    callback:this.goToScene,
+                    callbackScope:this,
+                    loop:false
+                }
+
+            );
         }
         
     }
-    
+    goToScene()
+    {
+        this.scene.start('level3');
+    }
     PlaySound()
     {
         this.walk.volume=0.009;

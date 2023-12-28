@@ -16,7 +16,7 @@ class splashScreen extends Phaser.Scene
    preload()
    { //Cargamos assets
     
-     this.load.setPath('assets/fonts/');
+     this.load.setPath('assets/fonts');
      this.load.bitmapFont('gameFont','gameFont.png','gameFont.xml'); 
      this.load.setPath('assets/img');
      this.load.image('splash_screen', 'splash_screen.png');
@@ -34,8 +34,9 @@ class splashScreen extends Phaser.Scene
 
    finalizaCarga()
    {
-     
+    
      this.splashscreen = this.add.sprite(0,0,'splash_screen').setOrigin(0);
+     
   
       this.time.addEvent(
           {
