@@ -71,6 +71,16 @@ class level4 extends Phaser.Scene
             }
         );
 
+        this.coinTimer = this.time.addEvent 
+        ( 
+            { 
+                delay: 1000, //ms 
+                callback:this.createCoin, 
+                callbackScope:this, 
+                loop:true, 
+            } 
+        );
+
         this.physics.add.overlap
         (
             this.bomb,
@@ -79,6 +89,16 @@ class level4 extends Phaser.Scene
             this.bullet,
             null,
             this
+        );
+
+        this.physics.add.overlap 
+        ( 
+            this.bomb, 
+            this.coinPool, 
+            this.bomb.hitCoin, 
+            this.coin, 
+            null, 
+            this 
         );
        
         
@@ -98,11 +118,20 @@ class level4 extends Phaser.Scene
 
         if(gamePrefs.LEVEL1_TIME===0)
         {
+            this.add.sprite(config.width/2,config.height/2,'lvlpopup');
             gamePrefs.LEVEL1_TIME = 30;
             this.walk.stop();
             this.backgroundMusic.stop();
-            gamePrefs.SCORE = 0;
-            this.scene.start('level5')
+            this.time.addEvent
+            (
+                {
+                    delay:2000,
+                    callback:this.goToScene,
+                    callbackScope:this,
+                    loop:false
+                }
+
+            );
         }
         
     }
@@ -120,7 +149,12 @@ class level4 extends Phaser.Scene
 
             console.log('Create explosion');
             this.death = new deathPrefab(this,_bomb.x,_bomb.y,'death');
+            this.deathSound.play();
               
+    }
+    goToScene()
+    {
+        this.scene.start('level5');
     }
 
     loadAnimations()
@@ -149,12 +183,22 @@ class level4 extends Phaser.Scene
                 showOnStart:true,
                 hideOnComplete:true            
             });
+
+            this.anims.create(
+                {
+                    key: 'coinIdle',
+                    frames:this.anims.generateFrameNumbers('coin', {start:0, end: 3}),
+                    frameRate: 8,
+                    repeat: -1
+                });
     }
 
     loadSounds()
     {
         this.walk=this.sound.add('walk').setLoop(true);
         this.backgroundMusic=this.sound.add('bg_music').setLoop(true);
+        this.coinSound=this.sound.add('coin_sound');
+        this.deathSound= this.sound.add('death_sound');
     }
 
     update()
@@ -172,6 +216,28 @@ class level4 extends Phaser.Scene
     loadPools()
     {
         this.bulletPool = this.physics.add.group();
+        this.coinPool = this.physics.add.group();
+    }
+
+    createCoin() 
+    { 
+        //Mirar si hay alguna moneda reciclable en la pool 
+        var coin = this.coinPool.getFirst(false); 
+ 
+        var posX = Phaser.Math.Between(20,config.width-20); 
+        var posY = Phaser.Math.Between(config.height/2+20,config.height-20); 
+         
+          if(!coin) 
+        {//Que no? La creo 
+            console.log('creando moneda'); 
+            coin = new coinPrefab(this,posX,posY,'coin'); 
+            this.coinPool.add(coin); 
+        }else 
+        {//Que si? La reciclo 
+            console.log('reciclando moneda'); 
+            coin.body.reset(posX,posY);                
+            coin.active = true; 
+        } 
     }
 
     update()

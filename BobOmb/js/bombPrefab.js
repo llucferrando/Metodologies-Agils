@@ -39,6 +39,16 @@ class bombPrefab extends Phaser.GameObjects.Sprite
         
         
     }
+
+    hitCoin(_bomb,_coin) 
+    { 
+         
+            gamePrefs.SCORE+=200; 
+            _coin.destroy(); 
+            _bomb.nivel.coinSound.play();
+         
+         
+    } 
    
     death(_bomb,_collisionAgent)
     {
