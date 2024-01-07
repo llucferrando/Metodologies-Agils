@@ -1,42 +1,27 @@
-class level3 extends Phaser.Scene
+class level8 extends Phaser.Scene
 {
     constructor()
     {
-        super({key:'level3'});
+        super({key:'level8'});
     }
 
     create()
     {
         this.bg_top= this.add.sprite(0,0,'bg_top').setOrigin(0);
         this.bg_down=this.add.sprite(0,192, 'bg_down').setOrigin(0);
-        
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
+        this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.6,'enemy');
+        this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.9,'enemy');
 
-        
 
-
-        //Up Spawner
-        this.upSpawner = new bulletSpawnerPrefab(this,16,config.width-16,-20,-5,0,1,1200,1800);
-        //Down Spawner
-        this.downSpawner = new bulletSpawnerPrefab(this,16,config.width-16,config.height+5,config.height+20,0,-1,1200,1800);
-        //Right Spawner
-        this.RightSpawner = new bulletSpawnerPrefab(this,config.width+5,config.width+20,config.height/2+20,config.height-20,-1,0,1200,1800);
-        //Left Spawner
-        this.LeftSpawner = new bulletSpawnerPrefab(this,-20,-5,config.height/2+20,config.height-20,1,0,1200,1800);
-        //Diagonal Spawner
-        this.DiagonalSpawner = new bulletSpawnerPrefab(this,-20,-5,config.height/4+20,config.height-config.height/4-20,1,1,1200,1800);
+        //Directed Spawner
+        this.directedSpawner = new directedBulletSpawnerPrefab(this,300,500);
 
 
         this.loadAnimations();
         this.loadSounds();
         this.loadPools();
-
-        this.obstacle = new obstaclePrefab(this,config.width/2,config.height/1.5,'obstacle');
-        this.obstacle1 = new obstaclePrefab(this,config.width/2,config.height/1.1,'obstacle');
-        this.obstacle2 = new obstaclePrefab(this,config.width/1.5,config.height/1.3,'obstacle');
-        this.obstacle3 = new obstaclePrefab(this,config.width/3.5,config.height/1.3,'obstacle');
-
 
         //Text
         this.tiempoTexto = this.add.text(16, 8, 'TIME LEFT:' 
@@ -52,6 +37,7 @@ class level3 extends Phaser.Scene
 
 
         this.bomb.anims.play('idle',false);
+
         this.levelTimer = this.time.addEvent
         (
             {
@@ -60,6 +46,16 @@ class level3 extends Phaser.Scene
                 callbackScope:this,
                 loop:true //repeat: -1
             }
+        );
+        this.scoreTimer=this.time.addEvent
+        (
+            {
+                delay:1000,
+                callback:this.scoreBomb,
+                callbackScope:this,
+                loop:true
+            }
+
         );
         this.plopTimer = this.time.addEvent
         (
@@ -92,43 +88,6 @@ class level3 extends Phaser.Scene
             this
         );
 
-        this.physics.add.overlap
-        (
-            this.bomb,
-            this.obstacle,
-            this.bomb.hitBomb,
-            this.bullet,
-            null,
-            this
-        );
-        this.physics.add.overlap
-        (
-            this.bomb,
-            this.obstacle1,
-            this.bomb.hitBomb,
-            this.bullet,
-            null,
-            this
-        );
-        this.physics.add.overlap
-        (
-            this.bomb,
-            this.obstacle2,
-            this.bomb.hitBomb,
-            this.bullet,
-            null,
-            this
-        );
-        this.physics.add.overlap
-        (
-            this.bomb,
-            this.obstacle3,
-            this.bomb.hitBomb,
-            this.bullet,
-            null,
-            this
-        );
-
         this.physics.add.overlap 
         ( 
             this.bomb, 
@@ -139,15 +98,12 @@ class level3 extends Phaser.Scene
             this 
         );
        
-        
-        
 
     }
     scoreBomb()
     {
-        this.scoreText.setText('SCORE:' + gamePrefs.SCORE);
         gamePrefs.SCORE+=50;
-
+        this.scoreText.setText('SCORE:' + gamePrefs.SCORE);
     }
     timeReset(){
         //console.log('Entrando en funcion');
@@ -173,7 +129,10 @@ class level3 extends Phaser.Scene
         }
         
     }
-    
+    goToScene()
+    {
+        this.scene.start('level8');
+    }
     PlaySound()
     {
         this.walk.volume=0.009;
@@ -201,6 +160,14 @@ class level3 extends Phaser.Scene
             repeat: -1
         });
 
+        this.anims.create(
+            {
+                key: 'enemyWalk',
+                frames:this.anims.generateFrameNumbers('enemy', {start:0, end: 2}),
+                frameRate: 8,
+                repeat: -1
+            });
+
             this.anims.create({
                 key: 'deathAnim',
                 frames: this.anims.generateFrameNumbers('death', { start: 0, end: 19 }),
@@ -218,27 +185,13 @@ class level3 extends Phaser.Scene
                     repeat: -1
                 });
     }
-    goToScene()
-    {
-        this.scene.start('level4');
-    }
+
     loadSounds()
     {
         this.walk=this.sound.add('walk').setLoop(true);
         this.backgroundMusic=this.sound.add('bg_music').setLoop(true);
         this.coinSound=this.sound.add('coin_sound');
         this.deathSound= this.sound.add('death_sound');
-    }
-
-    update()
-    { //Actualiza whatever         
-        
-        
-    }
-
-    updateHealth()
-    {
-        this.healthUI.setFrame(this.bomb.health);
     }
 
 
@@ -269,10 +222,9 @@ class level3 extends Phaser.Scene
         } 
     }
 
-    update()
-    { //Actualiza whatever         
-       
-       
+    updateHealth()
+    {
+        this.healthUI.setFrame(this.bomb.health);
     }
 
     resetScene()
@@ -282,8 +234,22 @@ class level3 extends Phaser.Scene
             this.backgroundMusic.stop();
             this.walk.stop();
             gamePrefs.SCORE = 0;
-            this.scene.start('menu')
+            this.scene.start('menu');
         
         })
     }
+
+    update()
+    { //Actualiza whatever         
+       
+       
+    }
+
+
+
+
+
+
+
+
 }
