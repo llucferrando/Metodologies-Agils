@@ -19,7 +19,8 @@ class bombPrefab extends Phaser.GameObjects.Sprite
         {           
             _bomb.nivel.createExplosion(_bomb);
             _bomb.nivel.resetScene();    
-            _bomb.destroy();            
+            _bomb.destroy(); 
+                    
         }
         else
         {
@@ -31,7 +32,6 @@ class bombPrefab extends Phaser.GameObjects.Sprite
 
 
             _bullet.destroy();
-           _bomb.bomb.body.reset(config.width/2,config.height*.8);
            _bomb.health--;
            console.log(_bomb.health);
            _bomb.nivel.updateHealth();
@@ -54,11 +54,7 @@ class bombPrefab extends Phaser.GameObjects.Sprite
             if(gamePrefs.SCORE <=0)
             {
                 gamePrefs.SCORE = 0;
-            }
-
-
-           
-           
+            }           
 
            console.log(_bomb.health);
            _bomb.nivel.updateHealth();
@@ -69,12 +65,9 @@ class bombPrefab extends Phaser.GameObjects.Sprite
 
     hitCoin(_bomb,_coin) 
     { 
-         
-            gamePrefs.SCORE+=200; 
-            _coin.destroy(); 
-            _bomb.nivel.coinSound.play();
-         
-         
+        gamePrefs.SCORE+=200; 
+        _coin.destroy(); 
+        _bomb.nivel.coinSound.play();
     } 
    
     death(_bomb,_collisionAgent)
@@ -93,21 +86,6 @@ class bombPrefab extends Phaser.GameObjects.Sprite
     {
         this.x = this.nivel.input.x;
         this.y = this.nivel.input.y;
-
-
-        /*if(this.cursores.left.isDown)
-            this.body.setVelocityX(-gamePrefs.BOMB_SPEED);
-        else if(this.cursores.right.isDown)
-            this.body.setVelocityX(gamePrefs.BOMB_SPEED);
-        else
-            this.body.setVelocityX(0);
-
-        if(this.cursores.up.isDown)
-            this.body.setVelocityY(-gamePrefs.BOMB_SPEED);
-        else if(this.cursores.down.isDown)
-            this.body.setVelocityY(gamePrefs.BOMB_SPEED);
-        else
-            this.body.setVelocityY(0);*/
 
         if(this.x<=20)
             this.x = 20;

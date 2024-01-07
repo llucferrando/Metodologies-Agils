@@ -38,8 +38,8 @@ menuNavigation()
         
           this.cameras.main.fadeOut(2000, 0, 0, 0);
           this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-              this.scene.start('level1')
               this.menuMusic.stop();
+              this.scene.start('level1')
               
           })
       })
@@ -50,8 +50,8 @@ menuNavigation()
         
           this.cameras.main.fadeOut(2000, 0, 0, 0);
           this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-              this.scene.start('levelSelector')
               this.menuMusic.stop();
+              this.scene.start('levelSelector')
               
           })
       })
@@ -62,8 +62,8 @@ menuNavigation()
         
           this.cameras.main.fadeOut(2000, 0, 0, 0);
           this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
-              this.scene.stop();
               this.menuMusic.stop();
+              this.scene.stop();
               
           })
       })
@@ -79,10 +79,8 @@ clickSound()
 }
 mainMenuMusic()
 {
-    
     this.menuMusic=this.sound.add('menu');
     this.menuMusic.play();
     this.menuMusic.volume=0.03;
-    
 }
 }

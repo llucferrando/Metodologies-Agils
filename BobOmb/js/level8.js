@@ -11,9 +11,7 @@ class level8 extends Phaser.Scene
         this.bg_down=this.add.sprite(0,192, 'bg_down').setOrigin(0);
 
         this.bomb = new bombPrefab(this,config.width/2,config.height*.8,'bomb');
-        this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.6,'enemy');
-        this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.9,'enemy');
-
+        this.bowser = new bowserPrefab(this,config.width/2,50,'bowser');
 
         //Directed Spawner
         this.directedSpawner = new directedBulletSpawnerPrefab(this,300,500);
@@ -88,6 +86,16 @@ class level8 extends Phaser.Scene
             this
         );
 
+        this.physics.add.overlap
+        (
+            this.bomb,
+            this.bowserBulletPool,
+            this.bomb.hitBomb,
+            this.bowserBullet,
+            null,
+            this
+        );
+
         this.physics.add.overlap 
         ( 
             this.bomb, 
@@ -143,11 +151,9 @@ class level8 extends Phaser.Scene
 
     createExplosion(_bomb)
     {
-
-            console.log('Create explosion');
-            this.death = new deathPrefab(this,_bomb.x,_bomb.y,'death');
-            this.deathSound.play();
-              
+        console.log('Create explosion');
+        this.death = new deathPrefab(this,_bomb.x,_bomb.y,'death');
+        this.deathSound.play();  
     }
 
     loadAnimations()
@@ -160,30 +166,23 @@ class level8 extends Phaser.Scene
             repeat: -1
         });
 
-        this.anims.create(
-            {
-                key: 'enemyWalk',
-                frames:this.anims.generateFrameNumbers('enemy', {start:0, end: 2}),
+        this.anims.create({
+            key: 'deathAnim',
+            frames: this.anims.generateFrameNumbers('death', { start: 0, end: 19 }),
+            frameRate: 10,
+            repeat: 0,
+            showOnStart:true,
+            hideOnComplete:true            
+        });
+
+        this.anims.create({
+            key: 'coinIdle',
+                frames:this.anims.generateFrameNumbers('coin', {start:0, end: 3}),
                 frameRate: 8,
                 repeat: -1
-            });
+        });   
 
-            this.anims.create({
-                key: 'deathAnim',
-                frames: this.anims.generateFrameNumbers('death', { start: 0, end: 19 }),
-                frameRate: 10,
-                repeat: 0,
-                showOnStart:true,
-                hideOnComplete:true            
-            });
-
-            this.anims.create(
-                {
-                    key: 'coinIdle',
-                    frames:this.anims.generateFrameNumbers('coin', {start:0, end: 3}),
-                    frameRate: 8,
-                    repeat: -1
-                });
+            
     }
 
     loadSounds()
@@ -198,6 +197,7 @@ class level8 extends Phaser.Scene
     loadPools()
     {
         this.bulletPool = this.physics.add.group();
+        this.bowserBulletPool = this.physics.add.group();
         this.coinPool = this.physics.add.group();
     }
 
@@ -235,6 +235,7 @@ class level8 extends Phaser.Scene
             this.walk.stop();
             gamePrefs.SCORE = 0;
             this.scene.start('menu');
+            gamePrefs.LEVEL1_TIME = 30;  
         
         })
     }

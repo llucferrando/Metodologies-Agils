@@ -11,6 +11,8 @@ class preloader extends Phaser.Scene
         this.load.image('bg_top','topbg.png');
         this.load.image('bg_down','downbg.png');
         this.load.image('bullet','fireball.png');
+        this.load.image('bowserBullet','fire.png');
+        this.load.image('bowser','bowser.png');
         this.load.image('obstacle','obstacle.png');
         this.load.image('lvlpopup','level_popup.png')
         this.load.spritesheet('healthUI','bobomb_hearts.png',

@@ -10,9 +10,7 @@ class enemyRoamingPrefab extends Phaser.GameObjects.Sprite
         this.nivel=_scene; 
         this.direccion = 1;
         this.body.setVelocityX(gamePrefs.ENEMY_SPEED*this.direccion);
-        this.setColliders();
-
-        
+        this.setColliders();        
     }
 
     setColliders()

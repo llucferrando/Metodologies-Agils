@@ -248,7 +248,8 @@ class level1 extends Phaser.Scene
         this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
             this.backgroundMusic.stop();
             this.walk.stop();
-            this.scene.start('menu')
+            this.scene.start('menu');
+            gamePrefs.LEVEL1_TIME = 30;  
         })
     }
 }

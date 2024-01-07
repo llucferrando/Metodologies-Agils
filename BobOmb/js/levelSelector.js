@@ -84,6 +84,7 @@ class levelSelector extends Phaser.Scene
             this.cameras.main.fadeOut(2000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 this.scene.start('level4')
+                this.levelMusic.stop();
                 
             })
         })
@@ -94,6 +95,7 @@ class levelSelector extends Phaser.Scene
             this.cameras.main.fadeOut(2000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 this.scene.start('level5')
+                this.levelMusic.stop();
                 
             })
         })
@@ -104,6 +106,7 @@ class levelSelector extends Phaser.Scene
             this.cameras.main.fadeOut(2000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 this.scene.start('level6')
+                this.levelMusic.stop();
                 
             })
         })
@@ -114,6 +117,7 @@ class levelSelector extends Phaser.Scene
             this.cameras.main.fadeOut(2000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 this.scene.start('level7')
+                this.levelMusic.stop();
                 
             })
         })
@@ -124,6 +128,7 @@ class levelSelector extends Phaser.Scene
             this.cameras.main.fadeOut(2000, 0, 0, 0);
             this.cameras.main.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, (cam, effect) => {
                 this.scene.start('level8')
+                this.levelMusic.stop();
                 
             })
         })

@@ -250,6 +250,7 @@ class level2 extends Phaser.Scene
             this.walk.stop();
             gamePrefs.SCORE = 0;
             this.scene.start('menu');
+            gamePrefs.LEVEL1_TIME = 30;  
         
         })
     }
