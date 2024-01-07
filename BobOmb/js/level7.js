@@ -14,6 +14,9 @@ class level7 extends Phaser.Scene
         this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.6,'enemy');
         this.enemy = new enemyRoamingPrefab(this,config.width,config.height*.9,'enemy');
 
+        this.obstacle1 = new obstaclePrefab(this,config.width/1.5,config.height/1.3,'obstacle');
+        this.obstacle2 = new obstaclePrefab(this,config.width/3.5,config.height/1.3,'obstacle');
+
         //Directed Spawner
         this.directedSpawner = new directedBulletSpawnerPrefab(this,300,500);
 
@@ -81,6 +84,25 @@ class level7 extends Phaser.Scene
         (
             this.bomb,
             this.bulletPool,
+            this.bomb.hitBomb,
+            this.bullet,
+            null,
+            this
+        );
+
+        this.physics.add.overlap
+        (
+            this.bomb,
+            this.obstacle1,
+            this.bomb.hitBomb,
+            this.bullet,
+            null,
+            this
+        );
+        this.physics.add.overlap
+        (
+            this.bomb,
+            this.obstacle2,
             this.bomb.hitBomb,
             this.bullet,
             null,

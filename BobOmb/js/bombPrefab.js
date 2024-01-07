@@ -40,6 +40,33 @@ class bombPrefab extends Phaser.GameObjects.Sprite
         
     }
 
+    hitObstacle(_bomb,_bullet)
+    {
+        if(_bomb.health <= 0)
+        {           
+            _bomb.nivel.createExplosion(_bomb);
+            _bomb.nivel.resetScene();    
+            _bomb.destroy();            
+        }
+        else
+        {
+            gamePrefs.SCORE-=200;
+            if(gamePrefs.SCORE <=0)
+            {
+                gamePrefs.SCORE = 0;
+            }
+
+
+           
+           
+
+           console.log(_bomb.health);
+           _bomb.nivel.updateHealth();
+        }
+        
+        
+    }
+
     hitCoin(_bomb,_coin) 
     { 
          
